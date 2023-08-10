@@ -10,33 +10,43 @@
  * @subpackage polylang-tcopro/admin/partials
  */
 
-$update_url  = add_query_arg(
-	array(
-		'polylang_tcopro_action' => 'update'
-	)
-);
-$nonced_url = wp_nonce_url( $update_url, 'polylang_tcopro-update' );
 ?>
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 
-<a href="<?php echo esc_url( $nonced_url ); ?>" class="button-primary">
-	<?php esc_html_e( 'Update', 'polylang-tcopro' ); ?>
-</a>
 <div class="postbox" id="support">
+
 	<h3 class="hndle">
-		<span><?php esc_html_e( 'Need Help?', 'polylang-tcopro' ); ?></span>
+
+		<span><?php esc_html_e( 'Do you like this plugin?', 'polylang-tcopro' ); ?></span>
+
 	</h3>
+
 	<div class="inside">
+
 		<p>
 			<?php
 			printf(
 				'%s <a href=\'%s\'>%s</a>.',
-				esc_html__( 'Please use our', 'polylang-tcopro' ),
+				esc_html__( 'If you find this plugin useful, I would appreciate a donation to continue improving it. Your support would be greatly appreciated!', 'polylang-tcopro' ),
 				esc_url( 'http://rtcamp.com/support/forum/wordpress-nginx/' ),
 				esc_html__( 'free support forum', 'polylang-tcopro' )
 			);
 			?>
 		</p>
+
 	</div>
+
+</div>
+
+<div class="postbox" id="update">
+
+	<div class="inside">
+
+		<?php wp_nonce_field( "{$this->plugin_name}_update", "{$this->plugin_name}_update_nonce" ); ?>
+
+		<button class="button button-primary"><?php _e("Update", "polylang-tcopro"); ?></button>
+
+	</div>
+
 </div>

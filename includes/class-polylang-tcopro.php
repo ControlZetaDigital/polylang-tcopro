@@ -119,6 +119,11 @@ class Polylang_Tcopro {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-polylang-tcopro-i18n.php';
 
 		/**
+		 * The class responsible for defining all integration actions between Polylang and Pro Theme.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-polylang-tcopro-integration.php';
+
+		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-polylang-tcopro-admin.php';
@@ -163,7 +168,14 @@ class Polylang_Tcopro {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $polylang_tcopro_admin, 'enqueue_styles' );
 		//$this->loader->add_action( 'admin_enqueue_scripts', $polylang_tcopro_admin, 'enqueue_scripts' );
-		$this->loader->add_action( 'admin_menu', $polylang_tcopro_admin, 'admin_menu' );
+		$this->loader->add_action( 'admin_menu', $polylang_tcopro_admin, 'admin_menu', 99 );
+
+		//Integration
+		$polylang_tcopro_integration = new Polylang_Tcopro_Integration( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_filter( 'cs_match_header_assignment', $polylang_tcopro_integration, 'header_assignment' );
+        $this->loader->add_filter( 'cs_match_footer_assignment', $polylang_tcopro_integration, 'footer_assignment' );
+        $this->loader->add_filter( 'cs_looper_custom_languages', $polylang_tcopro_integration, 'languages_provider' );
 	}
 
 	/**
@@ -190,7 +202,6 @@ class Polylang_Tcopro {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 *
 	 * @return Polylang_Tcopro_Loader Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
@@ -211,9 +222,7 @@ class Polylang_Tcopro {
 	 * Check wp version.
 	 *
 	 * @since     1.0.0
-	 *
 	 * @global string $wp_version
-	 *
 	 * @return boolean
 	 */
 	public function required_wp_version() {
@@ -225,7 +234,6 @@ class Polylang_Tcopro {
 		if ( false === $wp_ok ) {
 
 			add_action( 'admin_notices', array( &$this, 'display_notices' ) );
-			add_action( 'network_admin_notices', array( &$this, 'display_notices' ) );
 			return false;
 
 		}

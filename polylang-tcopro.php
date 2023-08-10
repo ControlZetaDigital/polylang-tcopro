@@ -63,6 +63,50 @@ function deactivate_polylang_tcopro() {
 register_activation_hook( __FILE__, 'activate_polylang_tcopro' );
 register_deactivation_hook( __FILE__, 'deactivate_polylang_tcopro' );
 
+define('POLYLANG_TCOPRO_ENV', 'dev'); //dev/prod
+
+/**
+ * Dispay Polylang activation notice.
+ * 
+ * @since	1.0.0
+ * 
+ */
+function pro_dependence_notice() {
+	?>
+	<div id="message" class="error">
+		<p>
+			<strong>
+				<?php
+				esc_html_e( 'Pro Theme must be installed and enabled in order to activate this plugin', 'polylang-tcopro' );
+				?>
+			</strong>
+		</p>
+	</div>
+	<?php
+}
+
+/**
+ * Dispay Theme Pro activation notice.
+ * 
+ * @since	1.0.0
+ * 
+ */
+function polylang_dependence_notice() {
+	?>
+	<div id="message" class="error">
+		<p>
+			<strong>
+				<?php
+				esc_html_e( 'Polylang must be installed and enabled in order to activate this plugin', 'polylang-tcopro' );
+				?>
+			</strong>
+		</p>
+	</div>
+	<?php
+}
+
+require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
@@ -79,11 +123,25 @@ require POLYLANG_TCOPRO_BASEPATH . 'includes/class-polylang-tcopro.php';
  * @since    1.0.0
  */
 function run_polylang_tcopro() {
-
-	global $polylang_tcopro;
-
-	$polylang_tcopro = new Polylang_Tcopro();
-	$polylang_tcopro->run();
-
+	if ( wp_get_theme()->template != 'pro' || ! in_array( 'polylang/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if( wp_get_theme()->template != 'pro' )
+			add_action( 'admin_notices', 'pro_dependence_notice' );
+	
+		if( ! in_array( 'polylang/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
+			add_action( 'admin_notices', 'polylang_dependence_notice' );
+			
+		deactivate_plugins( plugin_basename( __FILE__ ) );
+		if ( isset( $_GET['activate'] ) ) {
+			unset( $_GET['activate'] );
+		}
+	} else {
+		global $polylang_tcopro;
+	
+		$polylang_tcopro = new Polylang_Tcopro();
+		$polylang_tcopro->run();
+	}
 }
+
 run_polylang_tcopro();
+
+

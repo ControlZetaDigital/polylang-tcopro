@@ -93,11 +93,11 @@ class Polylang_Tcopro_Admin {
 		 * class.
 		 */
 
-		if ( 'settings_polylang_tcopro' !== $hook ) {
+		if ( 'languages_page_polylang_tcopro_settings' !== $hook ) {
 			return;
 		}
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/polylang-tcopro-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/polylang-tcopro-admin.css', array(), time(), 'all' ); //$this->version
 
 	}
 
@@ -122,11 +122,9 @@ class Polylang_Tcopro_Admin {
 		 * class.
 		 */
 
-		if ( 'settings_polylang_tcopro' !== $hook ) {
+		if ( 'languages_page_polylang_tcopro_settings' !== $hook ) {
 			return;
 		}
-
-		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/nginx-helper-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
 
@@ -138,25 +136,55 @@ class Polylang_Tcopro_Admin {
 	public function admin_menu() {
 
 		add_submenu_page(
-			'cornerstone',
-			__( 'Polylang Support', 'polylang-tcopro' ),
-			__( 'Polylang Support', 'polylang-tcopro' ),
+			'mlang',
+			__( 'Pro Theme Support', 'polylang-tcopro' ),
+			__( 'Pro Theme Support', 'polylang-tcopro' ),
 			'manage_options',
-			'polylang-tcopro',
+			'polylang_tcopro_settings',
 			array( &$this, 'setting_page' )
 		);
+
+		if (POLYLANG_TCOPRO_ENV === 'dev') {
+			add_submenu_page(
+				'mlang',
+				__( 'Pro Theme Debug', 'polylang-tcopro' ),
+				__( 'Pro Theme Debug', 'polylang-tcopro' ),
+				'manage_options',
+				'polylang_tcopro_debug',
+				array( &$this, 'debug_page' )
+			);
+		}
 
 	}
 
 	/**
 	 * Display settings.
 	 *
-	 * @global $string $pagenow Contain current admin page.
-	 *
 	 * @since    1.0.0
 	 */
 	public function setting_page() {
+		
+		$polylang_tcopro_integration = new Polylang_Tcopro_Integration( $this->plugin_name, $this->version );
+
+		if ( isset( $_POST ) )
+            $polylang_tcopro_integration->update();
+
+        $widgets = $polylang_tcopro_integration->get_widgets();
+        $languages = $polylang_tcopro_integration->get_languages();
+
 		include plugin_dir_path( __FILE__ ) . 'partials/polylang-tcopro-admin-display.php';
+	}
+
+	/**
+	 * Display debug.
+	 *
+	 * @since    1.0.0
+	 */
+	public function debug_page() {
+		
+		$polylang_tcopro_integration = new Polylang_Tcopro_Integration( $this->plugin_name, $this->version );
+
+		include plugin_dir_path( __FILE__ ) . 'partials/polylang-tcopro-debug-display.php';
 	}
 
 	/**

@@ -1,1 +1,47 @@
 /* CSS Admin Styles */
+
+.polylang-tcopro .polylang-tcopro-widgets {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin-top: 2em;
+}
+.polylang-tcopro .polylang-tcopro-widgets .polylang-tcopro-widget {
+    padding: 2em;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin: 0 2em 2em 0;
+    width: 100%;
+    max-width: 320px;
+    background: #fff;
+}
+.polylang-tcopro .polylang-tcopro-widgets .polylang-tcopro-widget h3 {
+    margin: 0 0 2em;
+    width: 100%;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #ccc;
+}
+.polylang-tcopro .polylang-tcopro-language-list {
+    display: flex;
+    flex-flow: column;
+    justify-content: stretch;
+    align-items: flex-start;
+    width: 100%;
+    margin: 0;
+} 
+.polylang-tcopro .polylang-tcopro-language-list .polylang-tcopro-lang {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+.polylang-tcopro .polylang-tcopro-language-list .polylang-tcopro-lang img {
+    width: 22px;
+    height: 22px;
+    margin-right: 0.5em;
+}
+.polylang-tcopro .polylang-tcopro-language-list .polylang-tcopro-lang select {
+    width: calc(100% - 22px - 0.5em);
+}
