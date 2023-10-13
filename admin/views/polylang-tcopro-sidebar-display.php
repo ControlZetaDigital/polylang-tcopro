@@ -29,8 +29,8 @@
 			printf(
 				'%s <a href=\'%s\'>%s</a>.',
 				esc_html__( 'If you find this plugin useful, I would appreciate a donation to continue improving it. Your support would be greatly appreciated!', 'polylang-tcopro' ),
-				esc_url( 'http://rtcamp.com/support/forum/wordpress-nginx/' ),
-				esc_html__( 'free support forum', 'polylang-tcopro' )
+				esc_url( 'https://controlzetadigital.com/contactar' ),
+				esc_html__( 'Contact us to make your donation!', 'polylang-tcopro' )
 			);
 			?>
 		</p>
