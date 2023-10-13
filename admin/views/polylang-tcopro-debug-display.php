@@ -6,7 +6,7 @@
  * @since      1.0.0
  *
  * @package    polylang-tcopro
- * @subpackage polylang-tcopro/admin/partials
+ * @subpackage polylang-tcopro/admin/views
  */
 
 global $pagenow;
@@ -30,13 +30,13 @@ global $pagenow;
 
 				<?php 
 				
-				foreach($polylang_tcopro_integration->get_headers() as $header) : ?>
+				foreach($ptco->get_layouts("archive") as $layout) : ?>
 
 					<?php print_r([
-						"ID" => $header->ID,
-						"title" => $header->title,
-						"assignments" => $header->assignments,
-						"priority" => $header->priority
+						"ID" => $layout->ID,
+						"title" => $layout->title,
+						"assignments" => $layout->assignments,
+						"priority" => $layout->priority
 					]); ?>
 
 				<?php endforeach; ?>

@@ -73,6 +73,15 @@ class Polylang_Tcopro_Integration {
     }
 
     /**
+	 * Return the default language
+	 *
+	 * @since    1.0.1
+	 */
+    public function default_language() {
+        return pll_default_language();
+    }
+
+    /**
 	 * Get the list of widgets (Cornerstone layout types of elements)
 	 *
 	 * @since    1.0.0
@@ -91,6 +100,18 @@ class Polylang_Tcopro_Integration {
             "title" => __( 'Footers',  '__cz__' ),
             "slug" => "footers",
             "items" => $this->get_footers()
+        ];
+
+        $widgets[] = (object) [
+            "title" => __( 'Archive layouts',  '__cz__' ),
+            "slug" => "archive_layouts",
+            "items" => $this->get_layouts("archive")
+        ];
+
+        $widgets[] = (object) [
+            "title" => __( 'Single layouts',  '__cz__' ),
+            "slug" => "single_layouts",
+            "items" => $this->get_layouts("single")
         ];
 
         return $widgets;
@@ -118,6 +139,18 @@ class Polylang_Tcopro_Integration {
         $footers = $this->get_items("cs_footer");
 
         return $footers;
+    }
+
+    /**
+	 * Get the layouts elements
+	 *
+	 * @since    1.0.0
+     * @return   array  $layouts      Array of layouts objects
+	 */
+    public function get_layouts( $type = "single" ) {
+        $layouts = $this->get_items("cs_layout_{$type}");
+
+        return $layouts;
     }
 
     /**
@@ -187,6 +220,52 @@ class Polylang_Tcopro_Integration {
                 $footer_assigned = get_option("{$this->plugin_name}_footers_" . $lang['slug']);
                 if ($footer_assigned && $footer_assigned != 0) {
                     $match = $footer_assigned;
+                    break;
+                }
+            }
+        }
+    
+        return $match;
+    }
+
+    /**
+	 * This function hooks into the 'cs_match_layout_archive_assignment' filter and returns 
+     * the archive layout's ID assigned to the current language.
+	 *
+	 * @since    1.0.1
+	 */
+    public function layout_archive_assignment( $match ) {
+
+        $languages = $this->get_languages();
+
+        foreach($languages as $lang) {
+            if ($lang['slug'] === pll_current_language()) {
+                $layout_assigned = get_option("{$this->plugin_name}_archive_layouts_" . $lang['slug']);
+                if ($layout_assigned && $layout_assigned != 0) {
+                    $match = $layout_assigned;
+                    break;
+                }
+            }
+        }
+    
+        return $match;
+    }
+
+    /**
+	 * This function hooks into the 'cs_match_layout_single_assignment' filter and returns 
+     * the single layout's ID assigned to the current language.
+	 *
+	 * @since    1.0.1
+	 */
+    public function layout_single_assignment( $match ) {
+
+        $languages = $this->get_languages();
+
+        foreach($languages as $lang) {
+            if ($lang['slug'] === pll_current_language()) {
+                $layout_assigned = get_option("{$this->plugin_name}_single_layouts_" . $lang['slug']);
+                if ($layout_assigned && $layout_assigned != 0) {
+                    $match = $layout_assigned;
                     break;
                 }
             }

@@ -8,7 +8,7 @@
  * @since      1.0.0
  *
  * @package    polylang-tcopro
- * @subpackage polylang-tcopro/admin/partials
+ * @subpackage polylang-tcopro/admin/views
  */
 
 global $pagenow;
@@ -38,36 +38,7 @@ global $pagenow;
 
 						<h3><?php echo $widget->title; ?></h3>
 
-						<ul class="<?php echo $this->plugin_name; ?>-language-list">
-
-							<?php foreach($languages as $lang) : ?>
-
-								<li class="<?php echo $this->plugin_name; ?>-lang">
-
-									<img src="<?php echo $lang["flag"]; ?>" width="22" height="22" />
-
-									<?php $field_name = $widget->slug . "_" . $lang["slug"]; ?>
-
-									<?php $option_selected = (get_option("{$this->plugin_name}_{$field_name}")) ? get_option("{$this->plugin_name}_{$field_name}") : false; ?>
-
-									<select class="<?php echo $this->plugin_name; ?>-item-select" name="<?php echo $field_name; ?>">
-
-										<option value="0">-- <?php echo $widget->title; ?> --</option>
-
-										<?php foreach($widget->items as $item) : ?>
-
-											<option value="<?php echo $item->ID; ?>"<?php echo ($option_selected && $option_selected == $item->ID) ? " selected" : ""; ?>>
-												<?php echo $item->title; ?> (Id: <?php echo $item->ID; ?>)</option>
-
-										<?php endforeach; ?>
-
-									</select>
-
-								</li>
-
-							<?php endforeach; ?>
-
-						</ul>
+						<?php require plugin_dir_path( __FILE__ ) . 'partials/language-list.php'; ?>						
 
 					</div>
 

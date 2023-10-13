@@ -1,4 +1,5 @@
-=== Redis Object Cache ===
+=== Polylang Theme.co Integration ===
+
 Contributors: ControlZetaDigital
 Tags: polylang, integrator, multilanguage, support, tco, themeco, pro, theme, cornerstone
 Requires at least: 3.3

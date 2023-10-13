@@ -7,7 +7,7 @@
  * @since      1.0.0
  *
  * @package    polylang-tcopro
- * @subpackage polylang-tcopro/admin/partials
+ * @subpackage polylang-tcopro/admin/views
  */
 
 ?>

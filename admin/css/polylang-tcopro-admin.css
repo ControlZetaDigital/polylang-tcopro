@@ -45,3 +45,13 @@
 .polylang-tcopro .polylang-tcopro-language-list .polylang-tcopro-lang select {
     width: calc(100% - 22px - 0.5em);
 }
+.button.polylang-tcopro-button {
+    display: inline-flex !important;
+    flex-flow: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.button.polylang-tcopro-button span {
+    margin: 0.1em 0.25em 0 0;
+    line-height: 1em;
+}

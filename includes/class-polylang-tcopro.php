@@ -175,6 +175,8 @@ class Polylang_Tcopro {
 
 		$this->loader->add_filter( 'cs_match_header_assignment', $polylang_tcopro_integration, 'header_assignment' );
         $this->loader->add_filter( 'cs_match_footer_assignment', $polylang_tcopro_integration, 'footer_assignment' );
+		$this->loader->add_filter( 'cs_match_layout-archive_assignment', $polylang_tcopro_integration, 'layout_archive_assignment' );
+		$this->loader->add_filter( 'cs_match_layout-single_assignment', $polylang_tcopro_integration, 'layout_single_assignment' );
         $this->loader->add_filter( 'cs_looper_custom_languages', $polylang_tcopro_integration, 'languages_provider' );
 	}
 

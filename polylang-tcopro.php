@@ -63,7 +63,7 @@ function deactivate_polylang_tcopro() {
 register_activation_hook( __FILE__, 'activate_polylang_tcopro' );
 register_deactivation_hook( __FILE__, 'deactivate_polylang_tcopro' );
 
-define('POLYLANG_TCOPRO_ENV', 'dev'); //dev/prod
+define('POLYLANG_TCOPRO_ENV', 'prod'); //dev/prod
 
 /**
  * Dispay Polylang activation notice.
