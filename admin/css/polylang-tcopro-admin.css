@@ -13,45 +13,55 @@
     border-radius: 3px;
     margin: 0 2em 2em 0;
     width: 100%;
-    max-width: 320px;
+    max-width: 420px;
     background: #fff;
 }
 .polylang-tcopro .polylang-tcopro-widgets .polylang-tcopro-widget h3 {
-    margin: 0 0 2em;
+    margin: 0 0 1em;
     width: 100%;
     padding-bottom: 0.5em;
     border-bottom: 1px solid #ccc;
 }
-.polylang-tcopro .polylang-tcopro-language-list {
+.polylang-tcopro .polylang-tcopro-assignment {
     display: flex;
     flex-flow: column;
-    justify-content: stretch;
-    align-items: flex-start;
-    width: 100%;
-    margin: 0;
-} 
-.polylang-tcopro .polylang-tcopro-language-list .polylang-tcopro-lang {
+    margin: 0 0 1em;
+}
+.polylang-tcopro .polylang-tcopro-assignment .polylang-tcopro-assignment-item {
     display: flex;
     flex-flow: row;
-    justify-content: flex-start;
+    justify-items: flex-start;
     align-items: center;
-    width: 100%;
 }
-.polylang-tcopro .polylang-tcopro-language-list .polylang-tcopro-lang img {
-    width: 22px;
-    height: 22px;
-    margin-right: 0.5em;
+.polylang-tcopro .polylang-tcopro-assignment .polylang-tcopro-assignment-item h4 {
+    margin: 0 1em 0 0;
 }
-.polylang-tcopro .polylang-tcopro-language-list .polylang-tcopro-lang select {
-    width: calc(100% - 22px - 0.5em);
-}
-.button.polylang-tcopro-button {
-    display: inline-flex !important;
+.polylang-tcopro .polylang-tcopro-assignment .polylang-tcopro-assignment-item .polylang-tcopro-language-list {
+    display: flex;
     flex-flow: row;
-    justify-content: flex-start;
+    justify-items: flex-start;
     align-items: center;
+    width: auto
 }
-.button.polylang-tcopro-button span {
-    margin: 0.1em 0.25em 0 0;
-    line-height: 1em;
+.polylang-tcopro .polylang-tcopro-assignment .polylang-tcopro-assignment-item .polylang-tcopro-language-list li {
+    margin: 0 0.5em 0 0;
+}
+.polylang-tcopro .polylang-tcopro-assignment .polylang-tcopro-assignment-item .polylang-tcopro-language-list li:last-of-type {
+    margin: 0;
+}
+.polylang-tcopro .polylang-tcopro-assignment .polylang-tcopro-assignment-item .polylang-tcopro-language-list .polylang-tcopro-flag {
+    padding: 0.25em;
+    display: block;
+    border-radius: 3px;
+    border: 2px solid transparent;
+    line-height: 1;
+    cursor: pointer;
+}
+.polylang-tcopro .polylang-tcopro-assignment .polylang-tcopro-assignment-item .polylang-tcopro-language-list .polylang-tcopro-flag.selected {
+    border: 2px solid #2271b1;
+}
+.polylang-tcopro .polylang-tcopro-assignment .polylang-tcopro-assignment-item .polylang-tcopro-language-list .polylang-tcopro-flag img {
+    width: 18px;
+    height: 18px;
+    margin: 0;
 }

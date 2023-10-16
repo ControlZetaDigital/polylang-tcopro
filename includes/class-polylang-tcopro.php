@@ -5,7 +5,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       https://rtcamp.com/nginx-helper/
+ * @link       https://github.com/ControlZetaDigital/polylang-tcopro
  * @since      1.0.0
  *
  * @package    polylang-tcopro
@@ -167,8 +167,9 @@ class Polylang_Tcopro {
 		$polylang_tcopro_admin = new Polylang_Tcopro_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $polylang_tcopro_admin, 'enqueue_styles' );
-		//$this->loader->add_action( 'admin_enqueue_scripts', $polylang_tcopro_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $polylang_tcopro_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $polylang_tcopro_admin, 'admin_menu', 99 );
+		$this->loader->add_action( 'wp_ajax_plytco_get_widget_assignments', $polylang_tcopro_admin, 'get_widget_assignments' );
 
 		//Integration
 		$polylang_tcopro_integration = new Polylang_Tcopro_Integration( $this->get_plugin_name(), $this->get_version() );

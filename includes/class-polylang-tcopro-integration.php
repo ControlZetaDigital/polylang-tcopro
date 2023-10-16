@@ -4,7 +4,7 @@
  *
  * Loads and defines the integration methods and hooks for this plugin
  *
- * @link       https://rtcamp.com/nginx-helper/
+ * @link       https://github.com/ControlZetaDigital/polylang-tcopro
  * @since      1.0.0
  *
  * @package    polylang-tcopro
@@ -21,6 +21,7 @@
  * @subpackage polylang-tcopro/includes
  * @author     ControlZetaDigital
  */
+
 class Polylang_Tcopro_Integration {
 
 	/**
@@ -51,8 +52,7 @@ class Polylang_Tcopro_Integration {
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version     = $version;
-
+		$this->version = $version;
 	}
 
     /**
@@ -66,6 +66,7 @@ class Polylang_Tcopro_Integration {
 
         $language_list = [];
         foreach($languages as $language) {
+            $language['default_lang'] = ($this->default_language() === $language['slug']) ? true : false;
             $language_list[] = $language;
         }
 
@@ -91,25 +92,25 @@ class Polylang_Tcopro_Integration {
         $widgets = [];
 
         $widgets[] = (object) [
-            "title" => __( 'Headers',  '__cz__' ),
+            "title" => __( 'Headers', 'polylang-tcopro' ),
             "slug" => "headers",
             "items" => $this->get_headers()
         ];
 
         $widgets[] = (object) [
-            "title" => __( 'Footers',  '__cz__' ),
+            "title" => __( 'Footers', 'polylang-tcopro' ),
             "slug" => "footers",
             "items" => $this->get_footers()
         ];
 
         $widgets[] = (object) [
-            "title" => __( 'Archive layouts',  '__cz__' ),
+            "title" => __( 'Archive layouts', 'polylang-tcopro' ),
             "slug" => "archive_layouts",
             "items" => $this->get_layouts("archive")
         ];
 
         $widgets[] = (object) [
-            "title" => __( 'Single layouts',  '__cz__' ),
+            "title" => __( 'Single layouts', 'polylang-tcopro' ),
             "slug" => "single_layouts",
             "items" => $this->get_layouts("single")
         ];
@@ -170,6 +171,7 @@ class Polylang_Tcopro_Integration {
         $items = [];
         foreach($item_list as $item) {
             $data = json_decode($item->post_content);
+
             $items[] = (object) [
                 "ID" => $item->ID,
                 "title" => $item->post_title,
@@ -183,6 +185,69 @@ class Polylang_Tcopro_Integration {
     }
 
     /**
+	 * Get the languages assigned to a header, footer or layout item
+	 *
+	 * @since    1.1.0
+     * @param    integer    $item_id       The item ID
+     * @return   mixed      Languages object or false
+	 */
+    public function get_item_languages( $item_id ) {
+
+        $languages = get_post_meta($item_id, "polylang_tcopro_language_assignments", true);
+
+        if ($languages) {
+            return (object) [
+                'list' => explode('|', $languages),
+                'value' => $languages
+            ];
+        } else {
+            return false;
+        }
+    }
+
+    /**
+	 * Helper function to sort an array of items by priority and ID
+	 *
+	 * @since    1.1.0
+	 */
+    protected function get_priority_items($a, $b) {
+        if ($a->priority == $b->priority) {
+            return $a->ID - $b->ID;
+        }
+        return $a->priority - $b->priority;
+    }
+
+    /**
+	 * Get the matched item ID using cornerstone rule matching and language assignments
+	 *
+	 * @since    1.1.0
+     * @param    array      $items       Headers, footers or layout items
+     * @return   integer    The matched item ID
+	 */
+    public function get_matched_item( $items ) {
+        $matcher = cornerstone('RuleMatching');
+        $matches = [];
+        $current_lang = pll_current_language();
+
+        foreach ($items as $item) {
+            $assignments = [];
+            $item_languages = $this->get_item_languages($item->ID);
+            foreach($item->assignments as $assignment) {
+                $assignments[] = (array) $assignment;
+            }
+            if ($matcher->match( $assignments ) && $item_languages && in_array($current_lang, $item_languages->list) ) {
+                $matches[] = $item;
+            }
+        }
+
+        if (count($matches) > 1) {
+            usort($matches, [$this, 'get_priority_items']);
+        }
+
+        return ($matches) ? $matches[0]->ID : null;
+    }
+
+    /**
 	 * This function hooks into the 'cs_match_header_assignment' filter and returns 
      * the header's ID assigned to the current language.
 	 *
@@ -190,18 +255,12 @@ class Polylang_Tcopro_Integration {
 	 */
     public function header_assignment( $match ) {
 
-        $languages = $this->get_languages();
+        if (is_admin())
+            return $match;
 
-        foreach($languages as $lang) {
-            if ($lang['slug'] === pll_current_language()) {
-                $header_assigned = get_option("{$this->plugin_name}_headers_" . $lang['slug']);
-                if ($header_assigned && $header_assigned != 0) {
-                    $match = $header_assigned;
-                    break;
-                }
-            }
-        }
-    
+        $headers = $this->get_headers();
+        $match = $this->get_matched_item( $headers );
+
         return $match;
     }
 
@@ -213,17 +272,11 @@ class Polylang_Tcopro_Integration {
 	 */
     public function footer_assignment( $match ) {
 
-        $languages = $this->get_languages();
+        if (is_admin())
+            return $match;
 
-        foreach($languages as $lang) {
-            if ($lang['slug'] === pll_current_language()) {
-                $footer_assigned = get_option("{$this->plugin_name}_footers_" . $lang['slug']);
-                if ($footer_assigned && $footer_assigned != 0) {
-                    $match = $footer_assigned;
-                    break;
-                }
-            }
-        }
+        $footers = $this->get_footers();
+        $match = $this->get_matched_item( $footers );
     
         return $match;
     }
@@ -236,17 +289,11 @@ class Polylang_Tcopro_Integration {
 	 */
     public function layout_archive_assignment( $match ) {
 
-        $languages = $this->get_languages();
+        if (is_admin())
+            return $match;
 
-        foreach($languages as $lang) {
-            if ($lang['slug'] === pll_current_language()) {
-                $layout_assigned = get_option("{$this->plugin_name}_archive_layouts_" . $lang['slug']);
-                if ($layout_assigned && $layout_assigned != 0) {
-                    $match = $layout_assigned;
-                    break;
-                }
-            }
-        }
+        $archives = $this->get_layouts("archive");
+        $match = $this->get_matched_item( $archives );
     
         return $match;
     }
@@ -259,17 +306,11 @@ class Polylang_Tcopro_Integration {
 	 */
     public function layout_single_assignment( $match ) {
 
-        $languages = $this->get_languages();
+        if (is_admin())
+            return $match;
 
-        foreach($languages as $lang) {
-            if ($lang['slug'] === pll_current_language()) {
-                $layout_assigned = get_option("{$this->plugin_name}_single_layouts_" . $lang['slug']);
-                if ($layout_assigned && $layout_assigned != 0) {
-                    $match = $layout_assigned;
-                    break;
-                }
-            }
-        }
+        $singles = $this->get_layouts("single");
+        $match = $this->get_matched_item( $singles );
     
         return $match;
     }
@@ -291,7 +332,7 @@ class Polylang_Tcopro_Integration {
     }
 
     /**
-	 * Function that updates and saves the values of elements assigned to the languages.
+	 * Function that updates the languages assigned to each cornerstone element by the user.
 	 *
 	 * @since    1.0.0
 	 */
@@ -300,16 +341,14 @@ class Polylang_Tcopro_Integration {
             return;
 
         $widgets = $this->get_widgets();
-        $languages = $this->get_languages();
 
         foreach($widgets as $widget) {
-            foreach($languages as $lang) {
-                $field_name = $widget->slug . "_" . $lang['slug'];
-                if (isset($_POST[$field_name]) && $_POST[$field_name] !== "0") {
-                    update_option("{$this->plugin_name}_{$field_name}", $_POST[$field_name]);
+            foreach($widget->items as $item) {
+                $field_name = "item_{$item->ID}_languages";
+                if (isset($_POST[$field_name])) {
+                    update_post_meta($item->ID, "polylang_tcopro_language_assignments", $_POST[$field_name]);
                 }
             }
         }
     }
-
 }

@@ -2,7 +2,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       https://rtcamp.com/nginx-helper/
+ * @link       https://github.com/ControlZetaDigital/polylang-tcopro
  * @since      1.0.0
  *
  * @package    polylang-tcopro
@@ -19,6 +19,7 @@
  * @subpackage polylang-tcopro/admin
  * @author     ControlZetaDigital
  */
+
 class Polylang_Tcopro_Admin {
 
 	/**
@@ -97,7 +98,7 @@ class Polylang_Tcopro_Admin {
 			return;
 		}
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/polylang-tcopro-admin.css', array(), ((POLYLANG_TCOPRO_ENV === 'dev') ? time() : $this->version), 'all' ); //$this->version
+		wp_enqueue_style( $this->plugin_name . '-css', plugin_dir_url( __FILE__ ) . 'css/polylang-tcopro-admin.css', [], ((POLYLANG_TCOPRO_ENV === 'dev') ? time() : $this->version), 'all' ); //$this->version
 
 	}
 
@@ -126,6 +127,14 @@ class Polylang_Tcopro_Admin {
 			return;
 		}
 
+		wp_register_script( $this->plugin_name . '-js', plugin_dir_url( __FILE__ ) . 'js/polylang-tcopro-admin.js', ['jquery'], ((POLYLANG_TCOPRO_ENV === 'dev') ? time() : $this->version), true );
+
+		// 'ajaxUrl' => admin_url( 'admin-ajax.php' ) 
+		wp_localize_script( $this->plugin_name . '-js', 'plytco', [
+			"pluginName" => $this->plugin_name,
+			"ajaxUrl" => admin_url( 'admin-ajax.php' ),
+			"nonce" => wp_create_nonce( $this->plugin_name . '-settings-nonce' )
+		] );
 	}
 
 	/**
@@ -141,7 +150,7 @@ class Polylang_Tcopro_Admin {
 			__( 'Pro Theme Support', 'polylang-tcopro' ),
 			'manage_options',
 			'polylang_tcopro_settings',
-			array( &$this, 'setting_page' )
+			array( &$this, 'settings_page' )
 		);
 
 		if (POLYLANG_TCOPRO_ENV === 'dev') {
@@ -162,7 +171,7 @@ class Polylang_Tcopro_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function setting_page() {
+	public function settings_page() {
 		
 		$ptco = new Polylang_Tcopro_Integration( $this->plugin_name, $this->version );
 
@@ -171,6 +180,8 @@ class Polylang_Tcopro_Admin {
 
         $widgets = $ptco->get_widgets();
         $languages = $ptco->get_languages();
+
+		wp_enqueue_script($this->plugin_name . '-js');
 
 		include plugin_dir_path( __FILE__ ) . 'views/polylang-tcopro-admin-display.php';
 	}
@@ -199,5 +210,4 @@ class Polylang_Tcopro_Admin {
 		return $data;
 
 	}
-
 }

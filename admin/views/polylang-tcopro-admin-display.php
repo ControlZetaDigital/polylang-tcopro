@@ -4,7 +4,7 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link       http://example.com
+ * @link       https://github.com/ControlZetaDigital/polylang-tcopro
  * @since      1.0.0
  *
  * @package    polylang-tcopro
@@ -34,11 +34,11 @@ global $pagenow;
 
 					<?php foreach($widgets as $widget) : ?>
 
-					<div class="<?php echo $this->plugin_name; ?>-widget <?php echo $widget->slug; ?>">
+					<div class="<?php echo $this->plugin_name; ?>-widget <?php echo $widget->slug; ?>" data-widget="<?php echo $widget->slug; ?>">
 
 						<h3><?php echo $widget->title; ?></h3>
 
-						<?php require plugin_dir_path( __FILE__ ) . 'partials/language-list.php'; ?>						
+						<?php require plugin_dir_path( __FILE__ ) . 'partials/widget-assignments.php'; ?>
 
 					</div>
 

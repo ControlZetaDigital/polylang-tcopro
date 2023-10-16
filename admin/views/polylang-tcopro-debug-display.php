@@ -2,7 +2,7 @@
 /**
  * Provide a debug area view for development purposes
  *
- * @link       https://controlzetadigital.com
+ * @link       https://github.com/ControlZetaDigital/polylang-tcopro
  * @since      1.0.0
  *
  * @package    polylang-tcopro
@@ -37,7 +37,9 @@ global $pagenow;
 						"title" => $layout->title,
 						"assignments" => $layout->assignments,
 						"priority" => $layout->priority
-					]); ?>
+					]);
+					
+					?>
 
 				<?php endforeach; ?>
 
