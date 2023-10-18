@@ -3,7 +3,7 @@
  * Plugin Name:       Polylang for Tco Pro
  * Plugin URI:        https://controlzetadigital.com
  * Description:       Integrates Polylang with Theme.co Pro theme headers, footers and layouts
- * Version:           1.0.1
+ * Version:           1.1.0
  * Author:            ControlZeta
  * Author URI:        https://controlzetadigital.com
  * Text Domain:       polylang-tcopro
@@ -12,7 +12,7 @@
  * Tested up to:      6.1
  *
  * @link              https://controlzetadigital.com
- * @since             1.0.1
+ * @since             1.0.0
  * @package           polylang-tcopro
  */
 
@@ -63,7 +63,7 @@ function deactivate_polylang_tcopro() {
 register_activation_hook( __FILE__, 'activate_polylang_tcopro' );
 register_deactivation_hook( __FILE__, 'deactivate_polylang_tcopro' );
 
-define('POLYLANG_TCOPRO_ENV', 'dev'); //dev/prod
+define('POLYLANG_TCOPRO_ENV', 'prod'); //dev/prod
 
 /**
  * Dispay Polylang activation notice.

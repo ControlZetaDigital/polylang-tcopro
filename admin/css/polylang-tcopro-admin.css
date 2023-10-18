@@ -25,7 +25,14 @@
 .polylang-tcopro .polylang-tcopro-assignment {
     display: flex;
     flex-flow: column;
-    margin: 0 0 1em;
+    margin: 0 0 0.5em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #eee;
+}
+.polylang-tcopro .polylang-tcopro-assignment:last-of-type {
+    border: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 .polylang-tcopro .polylang-tcopro-assignment .polylang-tcopro-assignment-item {
     display: flex;

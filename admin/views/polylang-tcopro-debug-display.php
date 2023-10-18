@@ -18,7 +18,7 @@ global $pagenow;
 
 	<h2 class="rt_option_title">
 
-		<?php esc_html_e( 'Polylang Support', 'polylang-tcopro' ); ?>
+		<?php esc_html_e( 'Polylang Debug', 'polylang-tcopro' ); ?>
 
 	</h2>
 
@@ -26,24 +26,7 @@ global $pagenow;
 
 		<div id="post-body" class="metabox-holder columns-2 <?php echo $this->plugin_name; ?>">
 
-			<pre>
-
-				<?php 
-				
-				foreach($ptco->get_layouts("archive") as $layout) : ?>
-
-					<?php print_r([
-						"ID" => $layout->ID,
-						"title" => $layout->title,
-						"assignments" => $layout->assignments,
-						"priority" => $layout->priority
-					]);
-					
-					?>
-
-				<?php endforeach; ?>
-
-			</pre>
+			<pre></pre>
 
 		</div> <!-- End of #post-body -->
 
