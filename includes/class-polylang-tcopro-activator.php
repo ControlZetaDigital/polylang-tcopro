@@ -5,7 +5,7 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @link       https://rtcamp.com/nginx-helper/
+ * @link       https://github.com/ControlZetaDigital/polylang-tcopro
  *
  * @package    polylang-tcopro
  * @subpackage polylang-tcopro/includes

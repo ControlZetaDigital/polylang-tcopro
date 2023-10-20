@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Polylang for Tco Pro
- * Plugin URI:        https://controlzetadigital.com
+ * Plugin URI:        https://github.com/ControlZetaDigital/polylang-tcopro
  * Description:       Integrates Polylang with Theme.co Pro theme headers, footers and layouts
  * Version:           1.1.0
  * Author:            ControlZeta
@@ -11,7 +11,7 @@
  * Requires at least: 3.3
  * Tested up to:      6.1
  *
- * @link              https://controlzetadigital.com
+ * @link              https://github.com/ControlZetaDigital/polylang-tcopro
  * @since             1.0.0
  * @package           polylang-tcopro
  */
