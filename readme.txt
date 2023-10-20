@@ -23,8 +23,12 @@ For detailed installation instructions, please read the [standard installation p
 == Frequently Asked Questions ==
 1. How to use?
 
-Assign each active language with Pro elements you have made in settings. You can find this plugin\'s settings in Wordpress admin menu Languages -> Pro Theme Support.
+1.1 Language assignment
+Assign each active language with Pro elements you have made in settings. You can find this plugin's settings in Wordpress admin menu *Languages* -> *Pro Theme Support*.
 You can assign each CS element to one or multiple active languages. Just click on the flag to select or deselect the assignment. The native CS assignment will be applied alongside the language assignment of this plugin, so if you have multiple elements of the same type assigned to the same language, the assignment conditions and priorities you have defined in CS will be applied.
+
+1.2 Language CS provider
+This plugin also includes a custom looper provider that returns the languages configured in Polylang, allowing it to be used in Cornerstone with its respective functionality (see the [custom looper provider documentation](https://theme.co/docs/loopers#custom) for details). To call the provider, you should use the ***languages*** key in the *Custom* field. Its purpose is to facilitate the integration of a language selector in Cornerstone templates and layouts. The provider returns two variables: **current**, which contains the slug of the current language, and **languages**, which returns the list of languages configured on the website (for more information, refer to the [documentation for pll_the_languages](https://polylang.pro/doc/function-reference/)).
 
 2. Do you wanna help?
 
