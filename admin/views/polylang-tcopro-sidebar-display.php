@@ -27,10 +27,10 @@
 		<p>
 			<?php
 			printf(
-				'%s <a href=\'%s\'>%s</a>.',
+				'%s <a href=\'%s\' target="_blank">%s</a>.',
 				esc_html__( 'If you find this plugin useful, I would appreciate a donation to continue improving it. Your support would be greatly appreciated!', 'polylang-tcopro' ),
-				esc_url( 'https://controlzetadigital.com/contactar' ),
-				esc_html__( 'Contact me to make your donation!', 'polylang-tcopro' )
+				esc_url( 'https://donate.stripe.com/4gwg177xifrsfSgcMN' ),
+				esc_html__( 'Make a donation!', 'polylang-tcopro' )
 			);
 			?>
 		</p>
