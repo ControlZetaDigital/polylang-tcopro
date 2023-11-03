@@ -3,9 +3,9 @@ msgstr ""
 "Project-Id-Version: Polylang for Tco Pro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-20 11:45+0000\n"
-"PO-Revision-Date: 2023-10-20 11:59+0000\n"
+"PO-Revision-Date: 2023-11-03 14:33+0000\n"
 "Last-Translator: \n"
-"Language-Team: Spanish (Spain)\n"
+"Language-Team: Español\n"
 "Language: es_ES\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "Layouts de Archivo"
 msgid "ControlZeta"
 msgstr "ControlZeta"
 
-#: admin/views/polylang-tcopro-sidebar-display.php:21
+#: admin/views/polylang-tcopro-sidebar-display.php:22
 msgid "Do you like this plugin?"
 msgstr "¿Te gusta este plugin?"
 
@@ -35,12 +35,15 @@ msgstr "Pies de página"
 msgid "Headers"
 msgstr "Cabeceras"
 
-#. URI of the plugin
 #. Author URI of the plugin
 msgid "https://controlzetadigital.com"
 msgstr "https://controlzetadigital.com"
 
-#: admin/views/polylang-tcopro-sidebar-display.php:31
+#. URI of the plugin
+msgid "https://github.com/ControlZetaDigital/polylang-tcopro"
+msgstr ""
+
+#: admin/views/polylang-tcopro-sidebar-display.php:32
 msgid ""
 "If you find this plugin useful, I would appreciate a donation to continue "
 "improving it. Your support would be greatly appreciated!"
@@ -54,7 +57,7 @@ msgid ""
 msgstr ""
 "Integra Polylang con las cabeceras, pies y layouts del tema Pro de Theme.co"
 
-#: admin/views/polylang-tcopro-sidebar-display.php:33
+#: admin/views/polylang-tcopro-sidebar-display.php:34
 msgid "Make a donation!"
 msgstr "¡Haz tu donación!"
 
@@ -67,9 +70,14 @@ msgid "Polylang for Tco Pro"
 msgstr "Polylang para Tco Pro"
 
 #: polylang-tcopro.php:100
-msgid "Polylang must be installed and enabled in order to activate this plugin"
+#| msgid ""
+#| "Polylang must be installed and enabled in order to activate this plugin"
+msgid ""
+"Polylang or Polylang Pro must be installed and enabled in order to activate "
+"this plugin"
 msgstr ""
-"Polylang debe estar instalado y activado para poder activar este plugin"
+"Polylang o Polylang Pro debe estar instalado y activado para poder activar "
+"este plugin"
 
 #: admin/views/polylang-tcopro-admin-display.php:23
 msgid "Polylang Support"
@@ -101,6 +109,6 @@ msgstr "Layouts Single"
 msgid "Sorry, Polylang for Tco Pro requires WordPress %s or higher"
 msgstr "Lo siento, Polylang para Tco Pro requiere WordPress %s o superior"
 
-#: admin/views/polylang-tcopro-sidebar-display.php:48
+#: admin/views/polylang-tcopro-sidebar-display.php:49
 msgid "Update"
 msgstr "Actualizar"

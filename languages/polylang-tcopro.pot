@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Polylang for Tco Pro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-20 11:45+0000\n"
+"POT-Creation-Date: 2023-11-03 14:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "ControlZeta"
 msgstr ""
 
-#: admin/views/polylang-tcopro-sidebar-display.php:21
+#: admin/views/polylang-tcopro-sidebar-display.php:22
 msgid "Do you like this plugin?"
 msgstr ""
 
@@ -36,12 +36,15 @@ msgstr ""
 msgid "Headers"
 msgstr ""
 
-#. URI of the plugin
 #. Author URI of the plugin
 msgid "https://controlzetadigital.com"
 msgstr ""
 
-#: admin/views/polylang-tcopro-sidebar-display.php:31
+#. URI of the plugin
+msgid "https://github.com/ControlZetaDigital/polylang-tcopro"
+msgstr ""
+
+#: admin/views/polylang-tcopro-sidebar-display.php:32
 msgid ""
 "If you find this plugin useful, I would appreciate a donation to continue "
 "improving it. Your support would be greatly appreciated!"
@@ -52,7 +55,7 @@ msgid ""
 "Integrates Polylang with Theme.co Pro theme headers, footers and layouts"
 msgstr ""
 
-#: admin/views/polylang-tcopro-sidebar-display.php:33
+#: admin/views/polylang-tcopro-sidebar-display.php:34
 msgid "Make a donation!"
 msgstr ""
 
@@ -65,7 +68,9 @@ msgid "Polylang for Tco Pro"
 msgstr ""
 
 #: polylang-tcopro.php:100
-msgid "Polylang must be installed and enabled in order to activate this plugin"
+msgid ""
+"Polylang or Polylang Pro must be installed and enabled in order to activate "
+"this plugin"
 msgstr ""
 
 #: admin/views/polylang-tcopro-admin-display.php:23
@@ -97,6 +102,6 @@ msgstr ""
 msgid "Sorry, Polylang for Tco Pro requires WordPress %s or higher"
 msgstr ""
 
-#: admin/views/polylang-tcopro-sidebar-display.php:48
+#: admin/views/polylang-tcopro-sidebar-display.php:49
 msgid "Update"
 msgstr ""

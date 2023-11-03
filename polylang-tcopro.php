@@ -3,7 +3,7 @@
  * Plugin Name:       Polylang for Tco Pro
  * Plugin URI:        https://github.com/ControlZetaDigital/polylang-tcopro
  * Description:       Integrates Polylang with Theme.co Pro theme headers, footers and layouts
- * Version:           1.1.0
+ * Version:           1.1.1
  * Author:            ControlZeta
  * Author URI:        https://controlzetadigital.com
  * Text Domain:       polylang-tcopro
@@ -97,7 +97,7 @@ function polylang_dependence_notice() {
 		<p>
 			<strong>
 				<?php
-				esc_html_e( 'Polylang must be installed and enabled in order to activate this plugin', 'polylang-tcopro' );
+				esc_html_e( 'Polylang or Polylang Pro must be installed and enabled in order to activate this plugin', 'polylang-tcopro' );
 				?>
 			</strong>
 		</p>
@@ -123,11 +123,15 @@ require POLYLANG_TCOPRO_BASEPATH . 'includes/class-polylang-tcopro.php';
  * @since    1.0.0
  */
 function run_polylang_tcopro() {
-	if ( wp_get_theme()->template != 'pro' || ! in_array( 'polylang/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	if ( wp_get_theme()->template != 'pro' || 
+		 ( !in_array( 'polylang/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) &&
+		 	!in_array( 'polylang-pro/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
+		) {
 		if( wp_get_theme()->template != 'pro' )
 			add_action( 'admin_notices', 'pro_dependence_notice' );
 	
-		if( ! in_array( 'polylang/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
+		if( !in_array( 'polylang/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && 
+			!in_array( 'polylang-pro/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
 			add_action( 'admin_notices', 'polylang_dependence_notice' );
 			
 		deactivate_plugins( plugin_basename( __FILE__ ) );
