@@ -19,6 +19,31 @@
 
 	<h3>
 
+		<span><?php esc_html_e( 'Need help?', 'polylang-tcopro' ); ?></span>
+
+	</h3>
+
+	<div class="inside">
+
+		<p>
+			<?php
+			printf(
+				'%s <a href=\'%s\' target="_blank">%s</a>.',
+				esc_html__( 'If you need information about the plugin\'s usage or check for new updates, please visit the repository on GitHub.', 'polylang-tcopro' ),
+				esc_url( 'https://github.com/ControlZetaDigital/polylang-tcopro' ),
+				esc_html__( 'Support page', 'polylang-tcopro' )
+			);
+			?>
+		</p>
+
+	</div>
+
+</div>
+
+<div class="postbox" id="donate">
+
+	<h3>
+
 		<span><?php esc_html_e( 'Do you like this plugin?', 'polylang-tcopro' ); ?></span>
 
 	</h3>

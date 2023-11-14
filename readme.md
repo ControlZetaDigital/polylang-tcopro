@@ -10,7 +10,7 @@ A simple plugin that integrates Polylang multilanguage plugin with Theme.co's Pr
 **Requires at least:** 5.4<br />
 **Tested up to:** 6.1<br />
 **Requires PHP:** 7.4<br />
-**Stable tag:** 1.1.0<br />
+**Stable tag:** 1.1.2<br />
 **License:** GPLv2 or later<br />
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,13 @@ If you want to collaborate in improving this plugin and have any ideas to do so,
 Also, if you've found it helpful and want to help me continue improving it, you can make a [donation here](https://donate.stripe.com/4gwg177xifrsfSgcMN).
 
 ## Changelog
+
+### 1.1.2
+ - Fix: The use of 'prepare' in the SQL query within 'get_items' has been discontinued as placeholders were not being used.
+ - Added a box in the sidebar with the link to the support page on GitHub.
+
+### 1.1.1
+ - Now plugin also check if Polylang Pro is enabled or not
 
 ### 1.1.0
  - Language assignment improved in order to assign a language to each Cornerstone element (headers, footers and layouts) and mantain CS native assignments.
