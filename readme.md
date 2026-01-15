@@ -8,9 +8,9 @@ A simple plugin that integrates Polylang multilanguage plugin with Theme.co's Pr
 **Tags:** polylang, integrator, multilanguage, support, tco, themeco, pro, theme, cornerstone<br />
 **Donate Link** Donate link: https://donate.stripe.com/4gwg177xifrsfSgcMN<br />
 **Requires at least:** 5.4<br />
-**Tested up to:** 6.1<br />
+**Tested up to:** 6.9<br />
 **Requires PHP:** 7.4<br />
-**Stable tag:** 1.1.2<br />
+**Stable tag:** 1.1.3<br />
 **License:** GPLv2 or later<br />
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,14 @@ If you want to collaborate in improving this plugin and have any ideas to do so,
 Also, if you've found it helpful and want to help me continue improving it, you can make a [donation here](https://donate.stripe.com/4gwg177xifrsfSgcMN).
 
 ## Changelog
+
+### 1.1.3
+
+#### Fixed
+- Fixed plugin header version (1.1.2 incorrectly showed as 1.1.1).
+- Update readmes and tested up to 6.9
+
+No functional changes.
 
 ### 1.1.2
  - Fix: The use of 'prepare' in the SQL query within 'get_items' has been discontinued as placeholders were not being used.

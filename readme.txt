@@ -3,9 +3,9 @@ Contributors: ControlZetaDigital
 Tags: polylang, integrator, multilanguage, support, tco, themeco, pro, theme, cornerstone
 Donate link: https://donate.stripe.com/4gwg177xifrsfSgcMN
 Requires at least: 5.4
-Tested up to: 6.1
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: v1.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,17 @@ Also, if you\'ve found it helpful and want to help me continue improving it, you
 1. [Plugin Settings](https://github.com/ControlZetaDigital/polylang-tcopro/blob/main/settings.png)
 
 == Changelog ==
+1.1.3
+- Fixed plugin header version (1.1.2 incorrectly showed as 1.1.1).
+- Update readmes and tested up to 6.9
+
+1.1.2
+ - Fix: The use of 'prepare' in the SQL query within 'get_items' has been discontinued as placeholders were not being used.
+ - Added a box in the sidebar with the link to the support page on GitHub.
+
+1.1.1
+ - Now plugin also check if Polylang Pro is enabled or not
+
 1.1.0
  - Language assignment improved in order to assign a language to each Cornerstone element (headers, footers and layouts) and mantain CS native assignments.
  - Minor updates in plugin\'s file/directory structure and documentation.

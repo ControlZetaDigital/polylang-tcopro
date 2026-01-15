@@ -9,7 +9,7 @@
  * Text Domain:       polylang-tcopro
  * Domain Path:       /languages
  * Requires at least: 5.4
- * Tested up to:      6.1
+ * Tested up to:      6.9
  *
  * @link              https://github.com/ControlZetaDigital/polylang-tcopro
  * @since             1.0.0
