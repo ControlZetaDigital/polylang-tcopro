@@ -164,7 +164,7 @@ class Polylang_Tcopro_Integration {
     private function get_items($type) {
         global $wpdb;
 
-        $item_list = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = '{$type}'");
+        $item_list = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = '{$type}' AND post_status = 'tco-data'");
 
         $items = [];
         foreach($item_list as $item) {

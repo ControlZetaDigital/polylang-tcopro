@@ -5,7 +5,7 @@ Donate link: https://donate.stripe.com/4gwg177xifrsfSgcMN
 Requires at least: 5.4
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: v1.1.3
+Stable tag: v1.1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,9 @@ Also, if you\'ve found it helpful and want to help me continue improving it, you
 1. [Plugin Settings](https://github.com/ControlZetaDigital/polylang-tcopro/blob/main/settings.png)
 
 == Changelog ==
+1.1.4
+- Fixed SQL query to exclude trashed records by enforcing `post_status = tco-data`.
+
 1.1.3
 - Fixed plugin header version (1.1.2 incorrectly showed as 1.1.1).
 - Update readmes and tested up to 6.9
