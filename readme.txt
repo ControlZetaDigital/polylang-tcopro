@@ -5,7 +5,7 @@ Donate link: https://donate.stripe.com/4gwg177xifrsfSgcMN
 Requires at least: 5.4
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: v1.1.4
+Stable tag: v1.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,10 @@ Also, if you\'ve found it helpful and want to help me continue improving it, you
 1. [Plugin Settings](https://github.com/ControlZetaDigital/polylang-tcopro/blob/main/settings.png)
 
 == Changelog ==
+1.1.5
+- Fixed Pro theme detection when using child themes.
+- Improved activation notice with diagnostic information.
+
 1.1.4
 - Fixed SQL query to exclude trashed records by enforcing `post_status = tco-data`.
 

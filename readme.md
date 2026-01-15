@@ -10,7 +10,7 @@ A simple plugin that integrates Polylang multilanguage plugin with Theme.co's Pr
 **Requires at least:** 5.4<br />
 **Tested up to:** 6.9<br />
 **Requires PHP:** 7.4<br />
-**Stable tag:** 1.1.4<br />
+**Stable tag:** 1.1.5<br />
 **License:** GPLv2 or later<br />
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,12 @@ If you want to collaborate in improving this plugin and have any ideas to do so,
 Also, if you've found it helpful and want to help me continue improving it, you can make a [donation here](https://donate.stripe.com/4gwg177xifrsfSgcMN).
 
 ## Changelog
+
+## 1.1.5
+
+### Fixed
+- Fixed Pro theme detection when using child themes.
+- Improved activation notice with diagnostic information.
 
 ## 1.1.4
 

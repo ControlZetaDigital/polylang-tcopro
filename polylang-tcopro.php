@@ -3,7 +3,7 @@
  * Plugin Name:       Polylang for Tco Pro
  * Plugin URI:        https://github.com/ControlZetaDigital/polylang-tcopro
  * Description:       Integrates Polylang with Theme.co Pro theme headers, footers and layouts
- * Version:           1.1.4
+ * Version:           1.1.5
  * Author:            ControlZeta
  * Author URI:        https://controlzetadigital.com
  * Text Domain:       polylang-tcopro
@@ -72,17 +72,29 @@ define('POLYLANG_TCOPRO_ENV', 'prod'); //dev/prod
  * 
  */
 function pro_dependence_notice() {
-	?>
-	<div id="message" class="error">
-		<p>
-			<strong>
-				<?php
-				esc_html_e( 'Pro Theme must be installed and enabled in order to activate this plugin', 'polylang-tcopro' );
-				?>
-			</strong>
+    $theme  = wp_get_theme();
+    $parent = $theme->parent() ?: $theme;
+
+    ?>
+    <div class="notice notice-error">
+        <p>
+            <strong>
+                <?php esc_html_e(
+                    'Pro Theme must be installed and enabled in order to activate this plugin.',
+                    'polylang-tcopro'
+                ); ?>
+            </strong>
+			<pre><code><?php
+				echo sprintf(
+					esc_html__("Theme name: %s | Template: %s | Stylesheet: %s", 'polylang-tcopro'),
+						$parent->get('Name'),
+						$parent->get_template(),
+						$parent->get_stylesheet()
+				);
+			?></code></pre>
 		</p>
-	</div>
-	<?php
+    </div>
+    <?php
 }
 
 /**
@@ -123,15 +135,29 @@ require POLYLANG_TCOPRO_BASEPATH . 'includes/class-polylang-tcopro.php';
  * @since    1.0.0
  */
 function run_polylang_tcopro() {
-	if ( wp_get_theme()->template != 'pro' || 
-		 ( !in_array( 'polylang/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) &&
-		 	!in_array( 'polylang-pro/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
-		) {
-		if( wp_get_theme()->template != 'pro' )
+	$theme  = wp_get_theme();
+	$parent = $theme->parent() ?: $theme;
+
+	$is_pro = (
+		strtolower($parent->get('Name')) === 'pro' ||
+		strtolower($parent->get_template()) === 'pro' ||
+		strtolower($parent->get_stylesheet()) === 'pro'
+	);
+
+	if ( 
+		! $is_pro || 
+		( 
+			! is_plugin_active('polylang/polylang.php') &&
+        	! is_plugin_active('polylang-pro/polylang.php')
+		)
+	) {
+		if ( ! $is_pro )
 			add_action( 'admin_notices', 'pro_dependence_notice' );
 	
-		if( !in_array( 'polylang/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) && 
-			!in_array( 'polylang-pro/polylang.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
+		if ( 
+			! is_plugin_active('polylang/polylang.php') &&
+        	! is_plugin_active('polylang-pro/polylang.php')
+		)
 			add_action( 'admin_notices', 'polylang_dependence_notice' );
 			
 		deactivate_plugins( plugin_basename( __FILE__ ) );
