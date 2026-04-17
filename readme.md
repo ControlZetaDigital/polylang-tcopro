@@ -51,15 +51,15 @@ Also, if you've found it helpful and want to help me continue improving it, you 
 
 ## Changelog
 
-## 1.1.5
+### 1.1.5
 
-### Fixed
+#### Fixed
 - Fixed Pro theme detection when using child themes.
 - Improved activation notice with diagnostic information.
 
-## 1.1.4
+### 1.1.4
 
-### Fixed
+#### Fixed
 - Fixed SQL query to exclude trashed records by enforcing `post_status = tco-data`.
 
 ### 1.1.3
