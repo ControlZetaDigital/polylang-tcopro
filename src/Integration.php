@@ -100,11 +100,25 @@ class Integration {
 		$current_lang = pll_current_language();
 		$matches      = [];
 
+		if ( POLYLANG_TCOPRO_ENV === 'dev' ) {
+			error_log( '[plytco] getMatchedItem — current_lang: ' . var_export( $current_lang, true ) );
+		}
+
 		foreach ( $items as $item ) {
 			$assignments    = array_map( fn( $a ) => (array) $a, $item->assignments );
 			$item_languages = $this->getItemLanguages( $item->ID );
+			$cs_match       = $matcher->match( $assignments );
 
-			if ( $matcher->match( $assignments ) && $item_languages && in_array( $current_lang, $item_languages->list, true ) ) {
+			if ( POLYLANG_TCOPRO_ENV === 'dev' ) {
+				error_log( sprintf(
+					'[plytco] ID %d — cs_match: %s | item_languages: %s',
+					$item->ID,
+					var_export( $cs_match, true ),
+					var_export( $item_languages, true )
+				) );
+			}
+
+			if ( $cs_match && $item_languages && in_array( $current_lang, $item_languages->list, true ) ) {
 				$matches[] = $item;
 			}
 		}
@@ -113,7 +127,13 @@ class Integration {
 			usort( $matches, [ $this, 'sortByPriority' ] );
 		}
 
-		return ! empty( $matches ) ? $matches[0]->ID : null;
+		$result = ! empty( $matches ) ? $matches[0]->ID : null;
+
+		if ( POLYLANG_TCOPRO_ENV === 'dev' ) {
+			error_log( '[plytco] getMatchedItem result: ' . var_export( $result, true ) );
+		}
+
+		return $result;
 	}
 
 	// ------------------------------------------------------------------
