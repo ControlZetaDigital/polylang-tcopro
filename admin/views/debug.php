@@ -1,22 +1,10 @@
-<?php
-/**
- * Debug view — only accessible when POLYLANG_TCOPRO_ENV === 'dev'
- *
- * @package polylang-tcopro
- */
-
-global $pagenow;
-
-$headers  = $ptco->getHeaders();
-$footers  = $ptco->getFooters();
-$archives = $ptco->getLayouts( 'archive' );
-$singles  = $ptco->getLayouts( 'single' );
+<?php defined( 'WPINC' ) || die;
 
 $sections = [
-	'Headers'         => $headers,
-	'Footers'         => $footers,
-	'Archive layouts' => $archives,
-	'Single layouts'  => $singles,
+	'Headers'         => $ptco->getHeaders(),
+	'Footers'         => $ptco->getFooters(),
+	'Archive layouts' => $ptco->getLayouts( 'archive' ),
+	'Single layouts'  => $ptco->getLayouts( 'single' ),
 ];
 ?>
 
@@ -28,10 +16,7 @@ $sections = [
 		<div id="post-body" class="metabox-holder <?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>">
 
 			<h3>Languages</h3>
-			<pre><?php
-				$languages = $ptco->getLanguages();
-				echo esc_html( print_r( $languages, true ) );
-			?></pre>
+			<pre><?php echo esc_html( print_r( $ptco->getLanguages(), true ) ); ?></pre>
 
 			<?php foreach ( $sections as $label => $items ) : ?>
 				<h3><?php echo esc_html( $label ); ?></h3>
@@ -63,7 +48,7 @@ $sections = [
 									<?php endif; ?>
 								</td>
 								<td><pre style="margin:0;font-size:11px"><?php echo esc_html( print_r( $item->assignments, true ) ); ?></pre></td>
-								<td><?php echo esc_html( $item->priority ); ?></td>
+								<td><?php echo absint( $item->priority ); ?></td>
 							</tr>
 						<?php endforeach; ?>
 						</tbody>

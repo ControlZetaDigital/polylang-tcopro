@@ -77,11 +77,11 @@ class Admin {
 
 		wp_enqueue_script( POLYLANG_TCOPRO_NAME . '-js' );
 
-		include POLYLANG_TCOPRO_BASEPATH . 'admin/views/polylang-tcopro-admin-display.php';
+		include POLYLANG_TCOPRO_BASEPATH . 'admin/views/settings.php';
 	}
 
 	public function debugPage(): void {
 		$ptco = new Integration();
-		include POLYLANG_TCOPRO_BASEPATH . 'admin/views/polylang-tcopro-debug-display.php';
+		include POLYLANG_TCOPRO_BASEPATH . 'admin/views/debug.php';
 	}
 }
