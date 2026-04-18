@@ -28,3 +28,7 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+global $wpdb;
+
+$wpdb->delete( $wpdb->postmeta, array( 'meta_key' => 'polylang_tcopro_language_assignments' ) );

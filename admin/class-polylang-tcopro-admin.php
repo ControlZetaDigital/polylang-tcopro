@@ -41,24 +41,6 @@ class Polylang_Tcopro_Admin {
 	private $version;
 
 	/**
-	 * Various settings tabs.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $settings_tabs    Various settings tabs.
-	 */
-	private $settings_tabs;
-
-	/**
-	 * Purge options.
-	 *
-	 * @since    1.0.0
-	 * @access   public
-	 * @var      string    $options    Purge options.
-	 */
-	public $options;
-
-	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -69,8 +51,6 @@ class Polylang_Tcopro_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-
-		$this->options = $this->settings();
 	}
 
 	/**
@@ -198,16 +178,4 @@ class Polylang_Tcopro_Admin {
 		include plugin_dir_path( __FILE__ ) . 'views/polylang-tcopro-debug-display.php';
 	}
 
-	/**
-	 * Get settings.
-	 *
-	 * @since    1.0.0
-	 */
-	public function settings() {
-
-		$data = get_site_option('rt_wp_polylang_tcopro_options');
-
-		return $data;
-
-	}
 }
