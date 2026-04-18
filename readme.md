@@ -10,7 +10,7 @@ A simple plugin that integrates Polylang multilanguage plugin with Theme.co's Pr
 **Requires at least:** 5.4<br />
 **Tested up to:** 6.9<br />
 **Requires PHP:** 7.4<br />
-**Stable tag:** 1.1.5<br />
+**Stable tag:** 1.2.0<br />
 **License:** GPLv2 or later<br />
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,23 @@ If you want to collaborate in improving this plugin and have any ideas to do so,
 Also, if you've found it helpful and want to help me continue improving it, you can make a [donation here](https://donate.stripe.com/4gwg177xifrsfSgcMN).
 
 ## Changelog
+
+### 1.2.0
+
+#### Security
+- Fix SQL injection vulnerability in `get_items()` using `$wpdb->prepare()`.
+- Add `current_user_can()` check and sanitize POST input in `update()`.
+- Escape all output in admin views to prevent XSS.
+
+#### Fixed
+- Sync internal version constant with plugin header.
+- Replace always-true `isset($_POST)` with `!empty($_POST)`.
+- Remove deprecated `&$this` syntax.
+- Remove dead AJAX hook registration.
+
+#### Cleanup
+- Implement post_meta cleanup on plugin uninstall.
+- Remove unused options property and `settings()` method.
 
 ### 1.1.5
 
