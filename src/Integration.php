@@ -51,20 +51,24 @@ class Integration {
 
 		$rows  = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM $wpdb->posts WHERE post_type = %s AND post_status = 'tco-data'",
+				"SELECT ID, post_title, post_content FROM $wpdb->posts WHERE post_type = %s AND post_status = 'tco-data'",
 				$type
 			)
 		);
 
 		$items = [];
 		foreach ( $rows as $row ) {
-			$data    = json_decode( $row->post_content );
+			$data = json_decode( $row->post_content );
+
+			if ( ! $data || ! isset( $data->settings ) ) {
+				continue;
+			}
+
 			$items[] = (object) [
-				'ID'          => $row->ID,
+				'ID'          => (int) $row->ID,
 				'title'       => $row->post_title,
-				'assignments' => $data->settings->assignments,
-				'priority'    => $data->settings->assignment_priority,
-				'settings'    => $data->settings,
+				'assignments' => $data->settings->assignments ?? [],
+				'priority'    => (int) ( $data->settings->assignment_priority ?? 0 ),
 			];
 		}
 
@@ -90,9 +94,9 @@ class Integration {
 
 	private function sortByPriority( object $a, object $b ): int {
 		if ( $a->priority === $b->priority ) {
-			return $a->ID - $b->ID;
+			return $a->ID <=> $b->ID;
 		}
-		return $a->priority - $b->priority;
+		return $a->priority <=> $b->priority;
 	}
 
 	public function getMatchedItem( array $items ): ?int {

@@ -4,41 +4,42 @@ namespace PolylangTcoPro;
 
 class Admin {
 
+	private const SETTINGS_HOOK = 'languages_page_polylang_tcopro_settings';
+
+	private function assetVersion(): string {
+		return ( POLYLANG_TCOPRO_ENV === 'dev' ) ? (string) time() : POLYLANG_TCOPRO_VERSION;
+	}
+
 	public function enqueueStyles( string $hook ): void {
-		if ( 'languages_page_polylang_tcopro_settings' !== $hook ) {
+		if ( self::SETTINGS_HOOK !== $hook ) {
 			return;
 		}
-
-		$version = ( POLYLANG_TCOPRO_ENV === 'dev' ) ? time() : POLYLANG_TCOPRO_VERSION;
 
 		wp_enqueue_style(
 			POLYLANG_TCOPRO_NAME . '-css',
 			POLYLANG_TCOPRO_BASEURL . 'admin/css/polylang-tcopro-admin.css',
 			[],
-			$version,
+			$this->assetVersion(),
 			'all'
 		);
 	}
 
 	public function enqueueScripts( string $hook ): void {
-		if ( 'languages_page_polylang_tcopro_settings' !== $hook ) {
+		if ( self::SETTINGS_HOOK !== $hook ) {
 			return;
 		}
-
-		$version = ( POLYLANG_TCOPRO_ENV === 'dev' ) ? time() : POLYLANG_TCOPRO_VERSION;
 
 		wp_register_script(
 			POLYLANG_TCOPRO_NAME . '-js',
 			POLYLANG_TCOPRO_BASEURL . 'admin/js/polylang-tcopro-admin.js',
 			[ 'jquery' ],
-			$version,
+			$this->assetVersion(),
 			true
 		);
 
 		wp_localize_script( POLYLANG_TCOPRO_NAME . '-js', 'plytco', [
 			'pluginName' => POLYLANG_TCOPRO_NAME,
 			'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
-			'nonce'      => wp_create_nonce( POLYLANG_TCOPRO_NAME . '-settings-nonce' ),
 		] );
 	}
 

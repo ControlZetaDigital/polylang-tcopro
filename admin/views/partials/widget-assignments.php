@@ -32,7 +32,7 @@
 
                         <?php $default = ($lang["slug"] === $ptco->defaultLanguage()) ? ' default' : ''; ?>
 
-                        <?php $selected = ($item_languages && in_array($lang["slug"], $item_languages->list)) ? ' selected' : ''; ?>
+                        <?php $selected = ($item_languages && in_array($lang["slug"], $item_languages->list, true)) ? ' selected' : ''; ?>
 
                         <a class="<?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>-flag<?php echo esc_attr( $default . $selected ); ?>" data-language="<?php echo esc_attr( $lang["slug"] ); ?>">
 
