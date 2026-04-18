@@ -1,35 +1,77 @@
 <?php
 /**
- * Provide a debug area view for development purposes
+ * Debug view — only accessible when POLYLANG_TCOPRO_ENV === 'dev'
  *
- * @link       https://github.com/ControlZetaDigital/polylang-tcopro
- * @since      1.0.0
- *
- * @package    polylang-tcopro
- * @subpackage polylang-tcopro/admin/views
+ * @package polylang-tcopro
  */
 
 global $pagenow;
-?>
 
-<!-- This file should primarily consist of HTML with a little bit of PHP. -->
+$headers  = $ptco->getHeaders();
+$footers  = $ptco->getFooters();
+$archives = $ptco->getLayouts( 'archive' );
+$singles  = $ptco->getLayouts( 'single' );
+
+$sections = [
+	'Headers'         => $headers,
+	'Footers'         => $footers,
+	'Archive layouts' => $archives,
+	'Single layouts'  => $singles,
+];
+?>
 
 <div class="wrap rt-<?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>-wrapper">
 
-	<h2 class="rt_option_title">
-
-		<?php esc_html_e( 'Polylang Debug', 'polylang-tcopro' ); ?>
-
-	</h2>
+	<h2><?php esc_html_e( 'Polylang Debug', 'polylang-tcopro' ); ?></h2>
 
 	<div id="poststuff">
+		<div id="post-body" class="metabox-holder <?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>">
 
-		<div id="post-body" class="metabox-holder columns-2 <?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>">
+			<h3>Languages</h3>
+			<pre><?php
+				$languages = $ptco->getLanguages();
+				echo esc_html( print_r( $languages, true ) );
+			?></pre>
 
-			<pre></pre>
+			<?php foreach ( $sections as $label => $items ) : ?>
+				<h3><?php echo esc_html( $label ); ?></h3>
 
-		</div> <!-- End of #post-body -->
+				<?php if ( empty( $items ) ) : ?>
+					<p><em>No items found.</em></p>
+				<?php else : ?>
+					<table class="widefat striped" style="margin-bottom:2em">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Title</th>
+								<th>Language assignment (plugin)</th>
+								<th>CS assignments</th>
+								<th>Priority</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php foreach ( $items as $item ) : ?>
+							<?php $lang_data = $ptco->getItemLanguages( $item->ID ); ?>
+							<tr>
+								<td><?php echo absint( $item->ID ); ?></td>
+								<td><?php echo esc_html( $item->title ); ?></td>
+								<td>
+									<?php if ( $lang_data ) : ?>
+										<code><?php echo esc_html( $lang_data->value ); ?></code>
+									<?php else : ?>
+										<em style="color:#999">none</em>
+									<?php endif; ?>
+								</td>
+								<td><pre style="margin:0;font-size:11px"><?php echo esc_html( print_r( $item->assignments, true ) ); ?></pre></td>
+								<td><?php echo esc_html( $item->priority ); ?></td>
+							</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+				<?php endif; ?>
+			<?php endforeach; ?>
 
-	</div> <!-- End of #poststuff -->
+		</div>
+	</div>
 
-</div> <!-- End of .wrap .rt-nginx-wrapper -->
+</div>
