@@ -12,32 +12,32 @@
 
 ?>
 
-<div class="<?php echo $this->plugin_name; ?>-widget-assignments">
+<div class="<?php echo esc_attr( $this->plugin_name ); ?>-widget-assignments">
 
     <?php foreach($widget->items as $item) : ?>
 
         <?php $item_languages = $ptco->get_item_languages($item->ID); ?>
 
-        <div class="<?php echo $this->plugin_name; ?>-assignment">
+        <div class="<?php echo esc_attr( $this->plugin_name ); ?>-assignment">
 
-            <div class="<?php echo $this->plugin_name; ?>-assignment-item">
+            <div class="<?php echo esc_attr( $this->plugin_name ); ?>-assignment-item">
 
-                <h4><a target="_blank" href="<?php echo home_url("/cornerstone/edit/{$item->ID}"); ?>"><span class="dashicons dashicons-edit"></span></a> <?php echo $item->title; ?> (Id: <?php echo $item->ID; ?>)</h4>
+                <h4><a target="_blank" href="<?php echo esc_url( home_url( "/cornerstone/edit/{$item->ID}" ) ); ?>"><span class="dashicons dashicons-edit"></span></a> <?php echo esc_html( $item->title ); ?> (Id: <?php echo absint( $item->ID ); ?>)</h4>
 
-                <ul class="<?php echo $this->plugin_name; ?>-language-list">
+                <ul class="<?php echo esc_attr( $this->plugin_name ); ?>-language-list">
 
                 <?php foreach($languages as $lang) : ?>
 
-                    <li>                        
+                    <li>
 
                         <?php $default = ($lang["slug"] === $ptco->default_language()) ? ' default' : ''; ?>
 
                         <?php $selected = ($item_languages && in_array($lang["slug"], $item_languages->list)) ? ' selected' : ''; ?>
 
-                        <a class="<?php echo $this->plugin_name; ?>-flag<?php echo $default . $selected; ?>" data-language="<?php echo $lang["slug"]; ?>">
-                        
-                            <img src="<?php echo $lang["flag"]; ?>" width="18" height="18" />
-                        
+                        <a class="<?php echo esc_attr( $this->plugin_name ); ?>-flag<?php echo esc_attr( $default . $selected ); ?>" data-language="<?php echo esc_attr( $lang["slug"] ); ?>">
+
+                            <img src="<?php echo esc_url( $lang["flag"] ); ?>" width="18" height="18" />
+
                         </a>
 
                     </li>
@@ -48,7 +48,7 @@
 
             </div>
 
-            <input type="hidden" name="item_<?php echo $item->ID; ?>_languages" <?php echo ($item_languages) ? 'value="'.$item_languages->value.'" ' : ''; ?>/>
+            <input type="hidden" name="item_<?php echo absint( $item->ID ); ?>_languages" <?php echo $item_languages ? 'value="' . esc_attr( $item_languages->value ) . '" ' : ''; ?>/>
 
         </div>
 

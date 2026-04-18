@@ -71,7 +71,7 @@
 
 		<?php wp_nonce_field( "{$this->plugin_name}_update", "{$this->plugin_name}_update_nonce" ); ?>
 
-		<button class="button button-primary"><?php _e("Update", "polylang-tcopro"); ?></button>
+		<button class="button button-primary"><?php esc_html_e("Update", "polylang-tcopro"); ?></button>
 
 	</div>
 

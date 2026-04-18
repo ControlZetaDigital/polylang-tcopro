@@ -16,7 +16,7 @@ global $pagenow;
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 
-<div class="wrap rt-<?php echo $this->plugin_name; ?>-wrapper">
+<div class="wrap rt-<?php echo esc_attr( $this->plugin_name ); ?>-wrapper">
 
 	<h2 class="rt_option_title">
 
@@ -26,17 +26,17 @@ global $pagenow;
 
 	<div id="poststuff">
 
-		<div id="post-body" class="metabox-holder columns-2 <?php echo $this->plugin_name; ?>">
+		<div id="post-body" class="metabox-holder columns-2 <?php echo esc_attr( $this->plugin_name ); ?>">
 
 			<form action="" method="post">
 
-				<div id="post-body-content" class="<?php echo $this->plugin_name; ?>-widgets">				
+				<div id="post-body-content" class="<?php echo esc_attr( $this->plugin_name ); ?>-widgets">
 
 					<?php foreach($widgets as $widget) : ?>
 
-					<div class="<?php echo $this->plugin_name; ?>-widget <?php echo $widget->slug; ?>" data-widget="<?php echo $widget->slug; ?>">
+					<div class="<?php echo esc_attr( $this->plugin_name ); ?>-widget <?php echo esc_attr( $widget->slug ); ?>" data-widget="<?php echo esc_attr( $widget->slug ); ?>">
 
-						<h3><?php echo $widget->title; ?></h3>
+						<h3><?php echo esc_html( $widget->title ); ?></h3>
 
 						<?php require plugin_dir_path( __FILE__ ) . 'partials/widget-assignments.php'; ?>
 
