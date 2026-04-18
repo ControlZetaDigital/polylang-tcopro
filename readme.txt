@@ -5,7 +5,7 @@ Donate link: https://donate.stripe.com/4gwg177xifrsfSgcMN
 Requires at least: 5.4
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: v1.1.5
+Stable tag: v1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,17 @@ Also, if you\'ve found it helpful and want to help me continue improving it, you
 1. [Plugin Settings](https://github.com/ControlZetaDigital/polylang-tcopro/blob/main/settings.png)
 
 == Changelog ==
+1.2.0
+- Security: fix SQL injection vulnerability in get_items() using wpdb::prepare().
+- Security: add current_user_can() check and sanitize POST input in update().
+- Security: escape all output in admin views to prevent XSS.
+- Fix: sync internal version constant with plugin header.
+- Fix: replace always-true isset($_POST) with !empty($_POST).
+- Fix: remove deprecated &$this syntax.
+- Fix: remove dead AJAX hook registration.
+- Cleanup: implement post_meta cleanup on plugin uninstall.
+- Cleanup: remove unused options property and settings() method.
+
 1.1.5
 - Fixed Pro theme detection when using child themes.
 - Improved activation notice with diagnostic information.

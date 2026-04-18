@@ -77,7 +77,7 @@ class Polylang_Tcopro {
 	public function __construct() {
 
 		$this->plugin_name = 'polylang-tcopro';
-		$this->version     = '1.1.5';
+		$this->version     = '1.2.0';
 		$this->minimum_wp  = '5.4';
 
 		if ( ! $this->required_wp_version() ) {
