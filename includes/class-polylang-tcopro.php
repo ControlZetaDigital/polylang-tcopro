@@ -77,7 +77,7 @@ class Polylang_Tcopro {
 	public function __construct() {
 
 		$this->plugin_name = 'polylang-tcopro';
-		$this->version     = '1.1.2';
+		$this->version     = '1.1.5';
 		$this->minimum_wp  = '5.4';
 
 		if ( ! $this->required_wp_version() ) {
@@ -169,7 +169,7 @@ class Polylang_Tcopro {
 		$this->loader->add_action( 'admin_enqueue_scripts', $polylang_tcopro_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $polylang_tcopro_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $polylang_tcopro_admin, 'admin_menu', 99 );
-		$this->loader->add_action( 'wp_ajax_plytco_get_widget_assignments', $polylang_tcopro_admin, 'get_widget_assignments' );
+
 
 		//Integration
 		$polylang_tcopro_integration = new Polylang_Tcopro_Integration( $this->get_plugin_name(), $this->get_version() );
@@ -236,7 +236,7 @@ class Polylang_Tcopro {
 
 		if ( false === $wp_ok ) {
 
-			add_action( 'admin_notices', array( &$this, 'display_notices' ) );
+			add_action( 'admin_notices', array( $this, 'display_notices' ) );
 			return false;
 
 		}

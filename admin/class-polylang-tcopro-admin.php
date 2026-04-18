@@ -150,7 +150,7 @@ class Polylang_Tcopro_Admin {
 			__( 'Pro Theme Support', 'polylang-tcopro' ),
 			'manage_options',
 			'polylang_tcopro_settings',
-			array( &$this, 'settings_page' )
+			array( $this, 'settings_page' )
 		);
 
 		if (POLYLANG_TCOPRO_ENV === 'dev') {
@@ -160,7 +160,7 @@ class Polylang_Tcopro_Admin {
 				__( 'Pro Theme Debug', 'polylang-tcopro' ),
 				'manage_options',
 				'polylang_tcopro_debug',
-				array( &$this, 'debug_page' )
+				array( $this, 'debug_page' )
 			);
 		}
 
@@ -175,7 +175,7 @@ class Polylang_Tcopro_Admin {
 		
 		$ptco = new Polylang_Tcopro_Integration( $this->plugin_name, $this->version );
 
-		if ( isset( $_POST ) )
+		if ( ! empty( $_POST ) )
             $ptco->update();
 
         $widgets = $ptco->get_widgets();
