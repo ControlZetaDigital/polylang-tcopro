@@ -69,7 +69,7 @@
 
 	<div class="inside">
 
-		<?php wp_nonce_field( "{$this->plugin_name}_update", "{$this->plugin_name}_update_nonce" ); ?>
+		<?php wp_nonce_field( POLYLANG_TCOPRO_NAME . '_update', POLYLANG_TCOPRO_NAME . '_update_nonce' ); ?>
 
 		<button class="button button-primary"><?php esc_html_e("Update", "polylang-tcopro"); ?></button>
 

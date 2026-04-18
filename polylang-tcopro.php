@@ -16,162 +16,126 @@
  * @package           polylang-tcopro
  */
 
-// If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-/**
- * Base URL of plugin
- */
-if ( ! defined( 'POLYLANG_TCOPRO_BASEURL' ) ) {
-	define( 'POLYLANG_TCOPRO_BASEURL', plugin_dir_url( __FILE__ ) );
-}
+// Constants
+define( 'POLYLANG_TCOPRO_NAME',     'polylang-tcopro' );
+define( 'POLYLANG_TCOPRO_VERSION',  '1.2.0' );
+define( 'POLYLANG_TCOPRO_MIN_WP',   '5.4' );
+define( 'POLYLANG_TCOPRO_ENV',      'prod' );
+define( 'POLYLANG_TCOPRO_BASEPATH', plugin_dir_path( __FILE__ ) );
+define( 'POLYLANG_TCOPRO_BASEURL',  plugin_dir_url( __FILE__ ) );
+define( 'POLYLANG_TCOPRO_BASENAME', plugin_basename( __FILE__ ) );
 
-/**
- * Base Name of plugin
- */
-if ( ! defined( 'POLYLANG_TCOPRO_BASENAME' ) ) {
-	define( 'POLYLANG_TCOPRO_BASENAME', plugin_basename( __FILE__ ) );
-}
+// PSR-4 autoloader for PolylangTcoPro\ namespace → src/
+spl_autoload_register( function( string $class ): void {
+	$prefix = 'PolylangTcoPro\\';
+	if ( strncmp( $prefix, $class, strlen( $prefix ) ) !== 0 ) {
+		return;
+	}
+	$file = POLYLANG_TCOPRO_BASEPATH . 'src/' . str_replace( '\\', '/', substr( $class, strlen( $prefix ) ) ) . '.php';
+	if ( file_exists( $file ) ) {
+		require $file;
+	}
+} );
 
-/**
- * Base PATH of plugin
- */
-if ( ! defined( 'POLYLANG_TCOPRO_BASEPATH' ) ) {
-	define( 'POLYLANG_TCOPRO_BASEPATH', plugin_dir_path( __FILE__ ) );
-}
+// Activation / deactivation hooks
+register_activation_hook( __FILE__, function() {
+	if ( ! current_user_can( 'activate_plugins' ) ) {
+		return;
+	}
+} );
 
-/**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-polylang-tcopro-activator.php
- */
-function activate_polylang_tcopro() {
-	require_once POLYLANG_TCOPRO_BASEPATH . 'includes/class-polylang-tcopro-activator.php';
-	Polylang_Tcopro_Activator::activate();
-}
+register_deactivation_hook( __FILE__, '__return_null' );
 
-/**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-polylang-tcopro-deactivator.php
- */
-function deactivate_polylang_tcopro() {
-	require_once POLYLANG_TCOPRO_BASEPATH . 'includes/class-polylang-tcopro-deactivator.php';
-	Polylang_Tcopro_Deactivator::deactivate();
-}
+// Dependency checks
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-register_activation_hook( __FILE__, 'activate_polylang_tcopro' );
-register_deactivation_hook( __FILE__, 'deactivate_polylang_tcopro' );
-
-define('POLYLANG_TCOPRO_ENV', 'prod'); //dev/prod
-
-/**
- * Dispay Polylang activation notice.
- * 
- * @since	1.0.0
- * 
- */
-function pro_dependence_notice() {
-    $theme  = wp_get_theme();
-    $parent = $theme->parent() ?: $theme;
-
-    ?>
-    <div class="notice notice-error">
-        <p>
-            <strong>
-                <?php esc_html_e(
-                    'Pro Theme must be installed and enabled in order to activate this plugin.',
-                    'polylang-tcopro'
-                ); ?>
-            </strong>
+function polylang_tcopro_pro_notice(): void {
+	$theme  = wp_get_theme();
+	$parent = $theme->parent() ?: $theme;
+	?>
+	<div class="notice notice-error">
+		<p>
+			<strong><?php esc_html_e( 'Pro Theme must be installed and enabled in order to activate this plugin.', 'polylang-tcopro' ); ?></strong>
 			<pre><code><?php
 				echo sprintf(
-					esc_html__("Theme name: %s | Template: %s | Stylesheet: %s", 'polylang-tcopro'),
-						esc_html( $parent->get('Name') ),
-						esc_html( $parent->get_template() ),
-						esc_html( $parent->get_stylesheet() )
+					esc_html__( 'Theme name: %s | Template: %s | Stylesheet: %s', 'polylang-tcopro' ),
+					esc_html( $parent->get( 'Name' ) ),
+					esc_html( $parent->get_template() ),
+					esc_html( $parent->get_stylesheet() )
 				);
 			?></code></pre>
-		</p>
-    </div>
-    <?php
-}
-
-/**
- * Dispay Theme Pro activation notice.
- * 
- * @since	1.0.0
- * 
- */
-function polylang_dependence_notice() {
-	?>
-	<div id="message" class="error">
-		<p>
-			<strong>
-				<?php
-				esc_html_e( 'Polylang or Polylang Pro must be installed and enabled in order to activate this plugin', 'polylang-tcopro' );
-				?>
-			</strong>
 		</p>
 	</div>
 	<?php
 }
 
-require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+function polylang_tcopro_polylang_notice(): void {
+	?>
+	<div id="message" class="error">
+		<p>
+			<strong><?php esc_html_e( 'Polylang or Polylang Pro must be installed and enabled in order to activate this plugin.', 'polylang-tcopro' ); ?></strong>
+		</p>
+	</div>
+	<?php
+}
 
-/**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- */
-require POLYLANG_TCOPRO_BASEPATH . 'includes/class-polylang-tcopro.php';
+// Bootstrap
+function polylang_tcopro_run(): void {
+	global $wp_version;
 
-/**
- * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
- * @since    1.0.0
- */
-function run_polylang_tcopro() {
-	$theme  = wp_get_theme();
-	$parent = $theme->parent() ?: $theme;
+	// WP version check
+	if ( version_compare( $wp_version, POLYLANG_TCOPRO_MIN_WP, '<' ) ) {
+		add_action( 'admin_notices', function() {
+			?>
+			<div id="message" class="error">
+				<p>
+					<strong><?php
+						printf(
+							/* translators: %s is Minimum WP version. */
+							esc_html__( 'Sorry, Polylang for Tco Pro requires WordPress %s or higher', 'polylang-tcopro' ),
+							esc_html( POLYLANG_TCOPRO_MIN_WP )
+						);
+					?></strong>
+				</p>
+			</div>
+			<?php
+		} );
+		return;
+	}
 
-	$is_pro = (
-		strtolower($parent->get('Name')) === 'pro' ||
-		strtolower($parent->get_template()) === 'pro' ||
-		strtolower($parent->get_stylesheet()) === 'pro'
+	// Theme and Polylang checks
+	$theme    = wp_get_theme();
+	$parent   = $theme->parent() ?: $theme;
+	$is_pro   = in_array( 'pro', [
+		strtolower( $parent->get( 'Name' ) ),
+		strtolower( $parent->get_template() ),
+		strtolower( $parent->get_stylesheet() ),
+	], true );
+
+	$has_polylang = (
+		is_plugin_active( 'polylang/polylang.php' ) ||
+		is_plugin_active( 'polylang-pro/polylang.php' )
 	);
 
-	if ( 
-		! $is_pro || 
-		( 
-			! is_plugin_active('polylang/polylang.php') &&
-        	! is_plugin_active('polylang-pro/polylang.php')
-		)
-	) {
-		if ( ! $is_pro )
-			add_action( 'admin_notices', 'pro_dependence_notice' );
-	
-		if ( 
-			! is_plugin_active('polylang/polylang.php') &&
-        	! is_plugin_active('polylang-pro/polylang.php')
-		)
-			add_action( 'admin_notices', 'polylang_dependence_notice' );
-			
-		deactivate_plugins( plugin_basename( __FILE__ ) );
+	if ( ! $is_pro || ! $has_polylang ) {
+		if ( ! $is_pro ) {
+			add_action( 'admin_notices', 'polylang_tcopro_pro_notice' );
+		}
+		if ( ! $has_polylang ) {
+			add_action( 'admin_notices', 'polylang_tcopro_polylang_notice' );
+		}
+		deactivate_plugins( POLYLANG_TCOPRO_BASENAME );
 		if ( isset( $_GET['activate'] ) ) {
 			unset( $_GET['activate'] );
 		}
-	} else {
-		global $polylang_tcopro;
-	
-		$polylang_tcopro = new Polylang_Tcopro();
-		$polylang_tcopro->run();
+		return;
 	}
+
+	\PolylangTcoPro\Plugin::run();
 }
 
-run_polylang_tcopro();
-
-
+polylang_tcopro_run();

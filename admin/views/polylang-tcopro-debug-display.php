@@ -14,7 +14,7 @@ global $pagenow;
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 
-<div class="wrap rt-<?php echo esc_attr( $this->plugin_name ); ?>-wrapper">
+<div class="wrap rt-<?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>-wrapper">
 
 	<h2 class="rt_option_title">
 
@@ -24,7 +24,7 @@ global $pagenow;
 
 	<div id="poststuff">
 
-		<div id="post-body" class="metabox-holder columns-2 <?php echo esc_attr( $this->plugin_name ); ?>">
+		<div id="post-body" class="metabox-holder columns-2 <?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>">
 
 			<pre></pre>
 
