@@ -164,7 +164,7 @@ class Polylang_Tcopro_Integration {
     private function get_items($type) {
         global $wpdb;
 
-        $item_list = $wpdb->get_results("SELECT * FROM $wpdb->posts WHERE post_type = '{$type}' AND post_status = 'tco-data'");
+        $item_list = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_type = %s AND post_status = 'tco-data'", $type ) );
 
         $items = [];
         foreach($item_list as $item) {
@@ -335,7 +335,10 @@ class Polylang_Tcopro_Integration {
 	 * @since    1.0.0
 	 */
     public function update() {
-        if ( ! isset( $_POST["{$this->plugin_name}_update_nonce"] ) || ! wp_verify_nonce( $_POST["{$this->plugin_name}_update_nonce"], "{$this->plugin_name}_update" ) )
+        if ( ! current_user_can( 'manage_options' ) )
+            return;
+
+        if ( ! isset( $_POST["{$this->plugin_name}_update_nonce"] ) || ! wp_verify_nonce( sanitize_key( $_POST["{$this->plugin_name}_update_nonce"] ), "{$this->plugin_name}_update" ) )
             return;
 
         $widgets = $this->get_widgets();
@@ -344,7 +347,7 @@ class Polylang_Tcopro_Integration {
             foreach($widget->items as $item) {
                 $field_name = "item_{$item->ID}_languages";
                 if (isset($_POST[$field_name])) {
-                    update_post_meta($item->ID, "polylang_tcopro_language_assignments", $_POST[$field_name]);
+                    update_post_meta( $item->ID, "polylang_tcopro_language_assignments", sanitize_text_field( wp_unslash( $_POST[$field_name] ) ) );
                 }
             }
         }

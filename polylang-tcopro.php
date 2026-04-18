@@ -87,9 +87,9 @@ function pro_dependence_notice() {
 			<pre><code><?php
 				echo sprintf(
 					esc_html__("Theme name: %s | Template: %s | Stylesheet: %s", 'polylang-tcopro'),
-						$parent->get('Name'),
-						$parent->get_template(),
-						$parent->get_stylesheet()
+						esc_html( $parent->get('Name') ),
+						esc_html( $parent->get_template() ),
+						esc_html( $parent->get_stylesheet() )
 				);
 			?></code></pre>
 		</p>
