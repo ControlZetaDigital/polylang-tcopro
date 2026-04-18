@@ -10,7 +10,7 @@ A simple plugin that integrates Polylang multilanguage plugin with Theme.co's Pr
 **Requires at least:** 5.4<br />
 **Tested up to:** 6.9<br />
 **Requires PHP:** 7.4<br />
-**Stable tag:** 1.2.0<br />
+**Stable tag:** 1.3.0<br />
 **License:** GPLv2 or later<br />
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,22 @@ If you want to collaborate in improving this plugin and have any ideas to do so,
 Also, if you've found it helpful and want to help me continue improving it, you can make a [donation here](https://donate.stripe.com/4gwg177xifrsfSgcMN).
 
 ## Changelog
+
+### 1.3.0
+
+#### Refactor
+- Replace WordPress Plugin Boilerplate with namespaced PSR-4 classes.
+- Add `spl_autoload_register` autoloader for `PolylangTcoPro\` namespace.
+- Extract dependency checks and admin notices to `Bootstrap` class.
+- Move integration logic, admin UI and plugin bootstrap to `src/`.
+- Rename and reorganize admin views, remove boilerplate docblocks.
+
+#### Improved
+- Optimize DB query in `getItems()` to select only required columns.
+- Add null check for `json_decode()` result in `getItems()`.
+- Use spaceship operator in priority sorting.
+- Deduplicate admin hook string via class constant.
+- Add `defined('WPINC')` guard to all view partials.
 
 ### 1.2.0
 

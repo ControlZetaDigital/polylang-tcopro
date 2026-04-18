@@ -5,7 +5,7 @@ Donate link: https://donate.stripe.com/4gwg177xifrsfSgcMN
 Requires at least: 5.4
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: v1.2.0
+Stable tag: v1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,13 @@ Also, if you\'ve found it helpful and want to help me continue improving it, you
 1. [Plugin Settings](https://github.com/ControlZetaDigital/polylang-tcopro/blob/main/settings.png)
 
 == Changelog ==
+1.3.0
+- Refactor: replace WordPress Plugin Boilerplate with namespaced PSR-4 classes.
+- Refactor: reorganize code into Bootstrap, Plugin, Integration and Admin classes.
+- Refactor: rename and reorganize admin views, remove boilerplate docblocks.
+- Improved: optimize DB query, add json_decode null check, use spaceship operator.
+- Improved: deduplicate admin hook string, add WPINC guard to view partials.
+
 1.2.0
 - Security: fix SQL injection vulnerability in get_items() using wpdb::prepare().
 - Security: add current_user_can() check and sanitize POST input in update().
