@@ -9,7 +9,18 @@ class Bootstrap {
 			return;
 		}
 
+		self::initUpdateChecker();
 		Plugin::run();
+	}
+
+	private static function initUpdateChecker(): void {
+		require_once POLYLANG_TCOPRO_BASEPATH . 'vendor/yahnis-elsts/plugin-update-checker/plugin-update-checker.php';
+
+		\YahnisElsts\PluginUpdateChecker\v5p6\PucFactory::buildUpdateChecker(
+			'https://github.com/ControlZetaDigital/polylang-tcopro',
+			POLYLANG_TCOPRO_BASEPATH . 'polylang-tcopro.php',
+			POLYLANG_TCOPRO_NAME
+		);
 	}
 
 	// ------------------------------------------------------------------
