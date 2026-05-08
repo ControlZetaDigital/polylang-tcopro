@@ -5,7 +5,7 @@ Donate link: https://donate.stripe.com/4gwg177xifrsfSgcMN
 Requires at least: 5.4
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: v1.3.1
+Stable tag: v1.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,11 @@ Also, if you\'ve found it helpful and want to help me continue improving it, you
 1. [Plugin Settings](https://github.com/ControlZetaDigital/polylang-tcopro/blob/main/settings.png)
 
 == Changelog ==
+1.4.0
+- Feature: WooCommerce Single and Archive layout support
+  (cs_layout_single_wc / cs_layout_archive_wc via cs_match_layout-single-wc_assignment
+  and cs_match_layout-archive-wc_assignment).
+
 1.3.1
 - Feature: integrate plugin-update-checker v5.6 for automatic updates from GitHub releases.
 

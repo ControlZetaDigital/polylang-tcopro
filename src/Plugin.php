@@ -32,7 +32,9 @@ class Plugin {
 		add_filter( 'cs_match_header_assignment',        [ $integration, 'headerAssignment' ] );
 		add_filter( 'cs_match_footer_assignment',        [ $integration, 'footerAssignment' ] );
 		add_filter( 'cs_match_layout-archive_assignment', [ $integration, 'layoutArchiveAssignment' ] );
-		add_filter( 'cs_match_layout-single_assignment', [ $integration, 'layoutSingleAssignment' ] );
+		add_filter( 'cs_match_layout-single_assignment',      [ $integration, 'layoutSingleAssignment' ] );
+		add_filter( 'cs_match_layout-archive-wc_assignment', [ $integration, 'layoutArchiveWcAssignment' ] );
+		add_filter( 'cs_match_layout-single-wc_assignment',  [ $integration, 'layoutSingleWcAssignment' ] );
 		add_filter( 'cs_looper_custom_languages',        [ $integration, 'languagesProvider' ] );
 	}
 }

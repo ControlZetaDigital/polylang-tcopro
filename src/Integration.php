@@ -31,6 +31,8 @@ class Integration {
 			(object) [ 'title' => __( 'Footers', 'polylang-tcopro' ),         'slug' => 'footers',         'items' => $this->getFooters() ],
 			(object) [ 'title' => __( 'Archive layouts', 'polylang-tcopro' ), 'slug' => 'archive_layouts', 'items' => $this->getLayouts( 'archive' ) ],
 			(object) [ 'title' => __( 'Single layouts', 'polylang-tcopro' ),  'slug' => 'single_layouts',  'items' => $this->getLayouts( 'single' ) ],
+			(object) [ 'title' => __( 'WooCommerce Archive layouts', 'polylang-tcopro' ), 'slug' => 'archive_layouts_wc', 'items' => $this->getLayouts( 'archive_wc' ) ],
+			(object) [ 'title' => __( 'WooCommerce Single layouts', 'polylang-tcopro' ),  'slug' => 'single_layouts_wc',  'items' => $this->getLayouts( 'single_wc' ) ],
 		];
 	}
 
@@ -142,6 +144,16 @@ class Integration {
 	public function layoutSingleAssignment( $match ) {
 		if ( is_admin() ) return $match;
 		return $this->getMatchedItem( $this->getLayouts( 'single' ) );
+	}
+
+	public function layoutArchiveWcAssignment( $match ) {
+		if ( is_admin() ) return $match;
+		return $this->getMatchedItem( $this->getLayouts( 'archive_wc' ) );
+	}
+
+	public function layoutSingleWcAssignment( $match ) {
+		if ( is_admin() ) return $match;
+		return $this->getMatchedItem( $this->getLayouts( 'single_wc' ) );
 	}
 
 	public function languagesProvider( $results ): array {
