@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract version
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - name: Extract changelog entry
+        id: changelog
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          awk "/^### ${version}\$/{p=1} p && /^### / && !/^### ${version}\$/{p=0} p" readme.md > release_notes.md
+
+      - name: Build ZIP
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          plugin="polylang-tcopro"
+          zip_name="${plugin}-${version}.zip"
+
+          mkdir -p /tmp/build
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='composer.json' \
+            --exclude='composer.lock' \
+            --exclude='readme.txt' \
+            . "/tmp/build/${plugin}/"
+
+          cd /tmp/build
+          zip -r "${GITHUB_WORKSPACE}/${zip_name}" "${plugin}/"
+          echo "ZIP_NAME=${zip_name}" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ steps.version.outputs.version }}
+          body_path: release_notes.md
+          files: ${{ env.ZIP_NAME }}
