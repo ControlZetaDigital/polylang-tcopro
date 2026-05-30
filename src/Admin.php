@@ -2,6 +2,18 @@
 
 namespace PolylangTcoPro;
 
+/**
+ * Legacy admin UI for layout-language assignment.
+ *
+ * Provides the settings page under Languages → Pro Theme Support where
+ * administrators assign Polylang languages to CS layout types (headers,
+ * footers, singles, archives).
+ *
+ * This UI is a candidate for removal once in-builder assignment lands
+ * and the meta-based system in Integration is deprecated.
+ *
+ * @deprecated-candidate Will be superseded by in-builder assignment.
+ */
 class Admin {
 
 	private const SETTINGS_HOOK = 'languages_page_polylang_tcopro_settings';
