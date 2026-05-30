@@ -30,6 +30,7 @@ class Plugin {
 
 		self::registerLegacyHooks();
 		self::registerBuilderHooks();
+		self::registerProCompatibilityHooks();
 	}
 
 	// ------------------------------------------------------------------
@@ -76,5 +77,26 @@ class Plugin {
 	private static function registerBuilderHooks(): void {
 		Builder\Integration::setup();
 		Builder\TranslationEndpoint::setup();
+	}
+
+	// ------------------------------------------------------------------
+	// Polylang Pro compatibility
+	// ------------------------------------------------------------------
+
+	/**
+	 * Prevents Polylang Pro from copying or syncing our language assignment
+	 * meta across translations.
+	 *
+	 * polylang_tcopro_language_assignments is per-post and must hold the
+	 * target language slug, not the source's. If Pro copies or syncs it, the
+	 * frontend assignment system would serve the wrong layout for each language.
+	 *
+	 * The pll_copy_post_metas filter only fires when Polylang Pro is active,
+	 * so no is_active() guard is needed.
+	 */
+	private static function registerProCompatibilityHooks(): void {
+		add_filter( 'pll_copy_post_metas', static function ( array $keys ): array {
+			return array_diff( $keys, [ 'polylang_tcopro_language_assignments' ] );
+		} );
 	}
 }
