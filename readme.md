@@ -5,10 +5,10 @@ Integrates Polylang with Cornerstone Builder (Pro Theme / X Theme): language pic
 ## Information
 
 **Contributors:** ControlZetaDigital<br />
-**Tags:** polylang, integrator, multilanguage, support, tco, themeco, pro, theme, cornerstone<br />
+**Tags:** polylang, cornerstone, multilanguage, themeco, translation<br />
 **Donate Link** Donate link: https://donate.stripe.com/4gwg177xifrsfSgcMN<br />
 **Requires at least:** 5.4<br />
-**Tested up to:** 6.9<br />
+**Tested up to:** 7.0<br />
 **Requires PHP:** 7.4<br />
 **Stable tag:** 1.5.0<br />
 **License:** GPLv2 or later<br />

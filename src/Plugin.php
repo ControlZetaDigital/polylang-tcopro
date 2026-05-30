@@ -11,7 +11,7 @@ class Plugin {
 
 	private static function loadTextdomain(): void {
 		add_action( 'plugins_loaded', function() {
-			load_plugin_textdomain(
+			load_plugin_textdomain( // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- plugin ships .mo files for non-WordPress.org installs
 				POLYLANG_TCOPRO_NAME,
 				false,
 				dirname( POLYLANG_TCOPRO_BASENAME ) . '/languages/'

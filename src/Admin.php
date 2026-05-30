@@ -80,7 +80,7 @@ class Admin {
 	public function settingsPage(): void {
 		$ptco = new Integration();
 
-		if ( ! empty( $_POST ) ) {
+		if ( ! empty( $_POST ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce is verified inside Integration::update()
 			$ptco->update();
 		}
 

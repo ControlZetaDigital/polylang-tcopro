@@ -46,7 +46,7 @@ class Integration {
 		// mode Polylang would redirect the root URL to /lang/, losing the POST body so
 		// CS never receives cs_preview_state and cannot output CORNERSTONE_FRAME.
 		add_filter( 'pll_check_canonical_url', static function ( $redirectUrl ) {
-			return ! empty( $_POST['cs_preview_state'] ) ? false : $redirectUrl;
+			return ! empty( $_POST['cs_preview_state'] ) ? false : $redirectUrl; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- reading CS frame state to suppress redirect, not processing form data
 		} );
 	}
 
@@ -189,7 +189,7 @@ class Integration {
 	 * @param array $state The preview frame state (documentId, lang, docType, url).
 	 */
 	public static function beforePreviewFrame( array $state ): void {
-		if ( empty( $state['lang'] ) || isset( $_REQUEST['lang'] ) ) {
+		if ( empty( $state['lang'] ) || isset( $_REQUEST['lang'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- reading CS preview state, not processing user input
 			return;
 		}
 
@@ -206,7 +206,7 @@ class Integration {
 	 * Mirrors CS's WPML service filterAppURL() on cs_filter_app_url.
 	 */
 	public static function filterAppURL( string $url ): string {
-		return get_option( 'home' ) . '/' . apply_filters( 'cs_app_slug', 'cornerstone' );
+		return get_option( 'home' ) . '/' . apply_filters( 'cs_app_slug', 'cornerstone' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- CS-owned filter
 	}
 
 	// ------------------------------------------------------------------

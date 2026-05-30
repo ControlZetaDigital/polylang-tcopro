@@ -25,7 +25,7 @@ class TranslationEndpoint {
 			return;
 		}
 
-		if ( isset( $_REQUEST['cs-translation'] ) ) {
+		if ( isset( $_REQUEST['cs-translation'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- checking key existence only to decide whether to register the handler
 			add_filter( 'pre_handle_404', '__return_true' );
 			add_action( 'template_redirect', [ self::class, 'handleRequest' ], 0 );
 		}
@@ -44,7 +44,7 @@ class TranslationEndpoint {
 			define( 'DOING_AJAX', true );
 		}
 
-		do_action( 'cornerstone_before_custom_endpoint' );
+		do_action( 'cornerstone_before_custom_endpoint' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- CS-owned hook
 
 		send_origin_headers();
 		header( 'X-Robots-Tag: noindex' );
@@ -83,7 +83,7 @@ class TranslationEndpoint {
 		$rawBody = file_get_contents( 'php://input' );
 		$body    = json_decode( $rawBody, true );
 
-		$nonce = $body['_nonce'] ?? ( $_REQUEST['_nonce'] ?? null );
+		$nonce = $body['_nonce'] ?? ( isset( $_REQUEST['_nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['_nonce'] ) ) : null );
 
 		if ( ! wp_verify_nonce( $nonce, 'cornerstone_nonce' ) ) {
 			throw new \Exception( 'Nonce verification failed.' );
@@ -168,7 +168,7 @@ class TranslationEndpoint {
 		);
 
 		if ( is_wp_error( $newId ) ) {
-			throw new \Exception( $newId->get_error_message() );
+			throw new \Exception( $newId->get_error_message() ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- message is JSON-encoded via wp_send_json_error, not rendered as HTML
 		}
 
 		// Assign language and link to the translation group.

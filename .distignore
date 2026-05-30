@@ -4,4 +4,6 @@
 /composer.lock
 /readme.md
 /settings.png
+/src/UpdateChecker.php
 /vendor/yahnis-elsts
+/admin/views/debug.php

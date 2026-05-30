@@ -14,18 +14,10 @@ class Bootstrap {
 	}
 
 	private static function initUpdateChecker(): void {
-		$loader = POLYLANG_TCOPRO_BASEPATH . 'vendor/yahnis-elsts/plugin-update-checker/plugin-update-checker.php';
-		if ( ! file_exists( $loader ) ) {
-			return;
+		$checker = POLYLANG_TCOPRO_BASEPATH . 'src/UpdateChecker.php';
+		if ( file_exists( $checker ) ) {
+			require_once $checker;
 		}
-
-		require_once $loader;
-
-		\YahnisElsts\PluginUpdateChecker\v5p6\PucFactory::buildUpdateChecker(
-			'https://github.com/ControlZetaDigital/polylang-tcopro',
-			POLYLANG_TCOPRO_BASEPATH . 'polylang-tcopro.php',
-			POLYLANG_TCOPRO_NAME
-		);
 	}
 
 	// ------------------------------------------------------------------
@@ -72,7 +64,7 @@ class Bootstrap {
 
 		deactivate_plugins( POLYLANG_TCOPRO_BASENAME );
 
-		if ( isset( $_GET['activate'] ) ) {
+		if ( isset( $_GET['activate'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- unsetting a redirect param, not processing form data
 			unset( $_GET['activate'] );
 		}
 
@@ -104,8 +96,10 @@ class Bootstrap {
 		<div class="notice notice-error">
 			<p>
 				<strong><?php esc_html_e( 'Pro Theme must be installed and enabled in order to activate this plugin.', 'polylang-tcopro' ); ?></strong>
-				<pre><code><?php echo sprintf(
-					esc_html__( 'Theme name: %s | Template: %s | Stylesheet: %s', 'polylang-tcopro' ),
+				<pre><code><?php
+				/* translators: 1: theme name, 2: template slug, 3: stylesheet slug */
+				echo sprintf(
+					esc_html__( 'Theme name: %1$s | Template: %2$s | Stylesheet: %3$s', 'polylang-tcopro' ),
 					esc_html( $parent->get( 'Name' ) ),
 					esc_html( $parent->get_template() ),
 					esc_html( $parent->get_stylesheet() )

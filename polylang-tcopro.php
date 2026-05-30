@@ -6,10 +6,12 @@
  * Version:           1.5.0
  * Author:            ControlZeta
  * Author URI:        https://controlzetadigital.com
+ * License:           GPL-2.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       polylang-tcopro
  * Domain Path:       /languages
  * Requires at least: 5.4
- * Tested up to:      6.9
+ * Tested up to:      7.0
  *
  * @link              https://github.com/ControlZetaDigital/polylang-tcopro
  * @since             1.0.0
