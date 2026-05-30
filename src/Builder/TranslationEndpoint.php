@@ -252,6 +252,7 @@ class TranslationEndpoint {
 			'cs_layout_archive',
 			'cs_layout_single_wc',
 			'cs_layout_archive_wc',
+			'cs_global_block',
 		], true );
 	}
 

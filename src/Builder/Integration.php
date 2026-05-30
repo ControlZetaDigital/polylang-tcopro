@@ -250,13 +250,15 @@ class Integration {
 				// No language known for a CS layout type: mirror WPML — treat as
 				// default language so it shows in all language views (code matches
 				// default, remaining languages go to fallback).
+				// Include self in translations so the "Copy from" dropdown in the
+				// builder translate popup is not empty.
 				$defaultLang = pll_default_language();
 				$allLangs    = array_keys( pll_the_languages( [ 'raw' => 1, 'echo' => 0 ] ) );
 				return [
 					'code'         => $defaultLang,
 					'source'       => null,
 					'fallback'     => array_values( array_diff( $allLangs, [ $defaultLang ] ) ),
-					'translations' => new \stdClass(),
+					'translations' => (object) [ $defaultLang => $postId ],
 					'domain'       => home_url( '/' ),
 				];
 			}
@@ -281,6 +283,12 @@ class Integration {
 			pll_get_post_translations( $postId ),
 			static fn( int $id ) => get_post_status( $id ) !== 'trash'
 		);
+
+		// Ensure self is always present (e.g. layout linked via legacy meta but not
+		// yet in a Polylang translation group) so the "Copy from" dropdown is not empty.
+		if ( ! isset( $translations[ $lang ] ) ) {
+			$translations[ $lang ] = $postId;
+		}
 
 		$allLangs = array_keys( pll_the_languages( [ 'raw' => 1, 'echo' => 0 ] ) );
 		$fallback  = array_values( array_diff( $allLangs, array_keys( $translations ) ) );
@@ -349,6 +357,7 @@ class Integration {
 			'cs_layout_archive',
 			'cs_layout_single_wc',
 			'cs_layout_archive_wc',
+			'cs_global_block',
 		], true );
 	}
 }
