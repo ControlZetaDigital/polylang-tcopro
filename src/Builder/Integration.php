@@ -117,18 +117,37 @@ class Integration {
 	 * structure that CS's WPML integration provides on each document:
 	 *
 	 *   code         → current language slug
-	 *   translations → [ lang_slug => post_id, ... ] for all linked translations
+	 *   translations → { lang_slug: post_id, ... } for all linked translations
 	 *   fallback     → language slugs that have no translation yet
 	 *   source       → null (Polylang has no WPML-style TRID source concept)
 	 *   domain       → home URL (Polylang uses path-based or query-based, not subdomain)
+	 *
+	 * When Polylang does not know the post's language (e.g. CS layout post types
+	 * that are not registered in Polylang), we return a safe default so the CS
+	 * builder JS language filter — which calls `fallback.includes(lang)` — does
+	 * not crash on an undefined value. Returning an empty PHP array would
+	 * JSON-encode to `[]` (JS array), making the {code, fallback} destructuring
+	 * yield undefined for `fallback`. The safe default below encodes to a JS
+	 * object with an explicit empty `fallback` array.
 	 */
 	public static function getPostLanguageData( int $postId ): array {
 		$lang = pll_get_post_language( $postId, 'slug' );
 
 		if ( ! $lang ) {
-			return [];
+			// Return a typed placeholder so the JS filter can safely read
+			// fallback.includes(selectedLang) → [].includes(...) → false.
+			return [
+				'code'         => null,
+				'source'       => null,
+				'fallback'     => [],
+				'translations' => new \stdClass(), // {} not [] in JSON
+				'domain'       => home_url( '/' ),
+			];
 		}
 
+		// pll_get_post_translations always returns an associative array that
+		// includes the post itself, so it is never empty for a known post.
+		// PHP encodes non-empty associative arrays as JSON objects correctly.
 		$translations = pll_get_post_translations( $postId );
 
 		$allLangs = array_keys( pll_the_languages( [ 'raw' => 1, 'echo' => 0 ] ) );
