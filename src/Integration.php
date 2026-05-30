@@ -2,6 +2,18 @@
 
 namespace PolylangTcoPro;
 
+/**
+ * Legacy layout assignment integration.
+ *
+ * Handles matching of CS layout types (headers, footers, singles, archives)
+ * to Polylang languages via post-meta (`polylang_tcopro_language_assignments`).
+ *
+ * This class remains the active mechanism while the admin UI is the primary
+ * way to assign languages to layouts. It is a candidate for deprecation once
+ * in-builder layout assignment is implemented in Builder\Integration.
+ *
+ * @deprecated-candidate Will be superseded by Builder\Integration.
+ */
 class Integration {
 
 	// ------------------------------------------------------------------
