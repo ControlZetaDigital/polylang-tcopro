@@ -14,7 +14,7 @@
 
 				<div id="post-body-content" class="<?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>-widgets">
 
-					<?php foreach ( $widgets as $widget ) : ?>
+					<?php foreach ( $widgets as $widget ) : // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template-scoped variable passed via include ?>
 
 					<div class="<?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>-widget <?php echo esc_attr( $widget->slug ); ?>" data-widget="<?php echo esc_attr( $widget->slug ); ?>">
 

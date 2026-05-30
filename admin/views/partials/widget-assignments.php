@@ -2,9 +2,9 @@
 
 <div class="<?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>-widget-assignments">
 
-	<?php foreach ( $widget->items as $item ) : ?>
+	<?php foreach ( $widget->items as $item ) : // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- template-scoped variables passed via include ?>
 
-		<?php $item_languages = $ptco->getItemLanguages( $item->ID ); ?>
+		<?php $item_languages = $ptco->getItemLanguages( $item->ID ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ?>
 
 		<div class="<?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>-assignment">
 
@@ -19,11 +19,11 @@
 
 				<ul class="<?php echo esc_attr( POLYLANG_TCOPRO_NAME ); ?>-language-list">
 
-					<?php foreach ( $languages as $lang ) : ?>
+					<?php foreach ( $languages as $lang ) : // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound ?>
 
 						<?php
-						$default  = ( $lang['slug'] === $ptco->defaultLanguage() ) ? ' default' : '';
-						$selected = ( $item_languages && in_array( $lang['slug'], $item_languages->list, true ) ) ? ' selected' : '';
+						$default  = ( $lang['slug'] === $ptco->defaultLanguage() ) ? ' default' : ''; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+						$selected = ( $item_languages && in_array( $lang['slug'], $item_languages->list, true ) ) ? ' selected' : ''; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 						?>
 
 						<li>

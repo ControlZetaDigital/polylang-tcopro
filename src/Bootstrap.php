@@ -97,8 +97,8 @@ class Bootstrap {
 			<p>
 				<strong><?php esc_html_e( 'Pro Theme must be installed and enabled in order to activate this plugin.', 'polylang-tcopro' ); ?></strong>
 				<pre><code><?php
-				/* translators: 1: theme name, 2: template slug, 3: stylesheet slug */
 				echo sprintf(
+					/* translators: 1: theme name, 2: template slug, 3: stylesheet slug */
 					esc_html__( 'Theme name: %1$s | Template: %2$s | Stylesheet: %3$s', 'polylang-tcopro' ),
 					esc_html( $parent->get( 'Name' ) ),
 					esc_html( $parent->get_template() ),
