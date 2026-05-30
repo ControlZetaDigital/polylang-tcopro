@@ -36,6 +36,11 @@ class Integration {
 		add_filter( 'tco_routing_get/document-search',     [ self::class, 'enrichDocumentList' ], 20, 2 );
 
 		add_filter( 'cs_document_builder_info', [ self::class, 'enrichBuilderInfo' ], 10, 2 );
+
+		add_filter( 'cs_global_block_id',                         [ self::class, 'filterGlobalBlockId' ] );
+		add_filter( 'cs_document_layout_archive-wc_builder_info', [ self::class, 'filterWCArchiveBuilderInfo' ], 0, 2 );
+		add_action( 'cs_before_preview_frame',                    [ self::class, 'beforePreviewFrame' ] );
+		add_filter( 'cs_filter_app_url',                          [ self::class, 'filterAppURL' ], -100 );
 	}
 
 	// ------------------------------------------------------------------
@@ -106,6 +111,95 @@ class Integration {
 		}
 
 		return $info;
+	}
+
+	// ------------------------------------------------------------------
+	// Additional WPML-parity filters
+	// ------------------------------------------------------------------
+
+	/**
+	 * Resolves a CS global block (Component) ID to its translation for the
+	 * current Polylang language, falling back to the original when no
+	 * translation exists (e.g. structural / decorative components).
+	 *
+	 * Mirrors CS's WPML service icl_global_block_id() on cs_global_block_id.
+	 */
+	public static function filterGlobalBlockId( int $id ): int {
+		$lang = pll_current_language( 'slug' );
+		if ( ! $lang ) {
+			return $id;
+		}
+
+		$translated = pll_get_post( $id, $lang );
+		if ( $translated && get_post_status( $translated ) !== 'trash' ) {
+			return $translated;
+		}
+
+		return $id;
+	}
+
+	/**
+	 * Sets the documentUrl for WooCommerce Archive layouts in the builder to
+	 * the shop page of the layout's language, so the builder preview renders
+	 * the correct language shop page.
+	 *
+	 * Mirrors CS's WPML service filterWCArchiveBuilderInfo() on
+	 * cs_document_layout_archive-wc_builder_info.
+	 *
+	 * @param array  $info The builder info array for the document.
+	 * @param object $doc  The CS Document object.
+	 */
+	public static function filterWCArchiveBuilderInfo( array $info, $doc ): array {
+		if ( ! function_exists( 'wc_get_page_id' ) ) {
+			return $info;
+		}
+
+		$lang = pll_get_post_language( (int) $doc->id(), 'slug' );
+		if ( ! $lang ) {
+			return $info;
+		}
+
+		$shopId = wc_get_page_id( 'shop' );
+		if ( ! $shopId || $shopId < 0 ) {
+			return $info;
+		}
+
+		$translatedShopId = pll_get_post( $shopId, $lang );
+		if ( $translatedShopId ) {
+			$info['documentUrl'] = get_permalink( $translatedShopId );
+		}
+
+		return $info;
+	}
+
+	/**
+	 * Injects the document language into $_REQUEST so Polylang's language
+	 * detection picks up the correct language during the builder preview frame
+	 * request, regardless of URL mode (directory / query string).
+	 *
+	 * Mirrors CS's WPML service before_preview_frame() on cs_before_preview_frame.
+	 *
+	 * @param array $state The preview frame state (documentId, lang, docType, url).
+	 */
+	public static function beforePreviewFrame( array $state ): void {
+		if ( empty( $state['lang'] ) || isset( $_REQUEST['lang'] ) ) {
+			return;
+		}
+
+		$lang             = sanitize_key( $state['lang'] );
+		$_REQUEST['lang'] = $lang;
+		$_GET['lang']     = $lang;
+	}
+
+	/**
+	 * Overrides the CS builder app URL to use get_option('home') instead of
+	 * home_url(), bypassing Polylang's home_url() filter which in directory
+	 * mode can inject a language prefix and make the builder URL unreachable.
+	 *
+	 * Mirrors CS's WPML service filterAppURL() on cs_filter_app_url.
+	 */
+	public static function filterAppURL( string $url ): string {
+		return get_option( 'home' ) . '/' . apply_filters( 'cs_app_slug', 'cornerstone' );
 	}
 
 	// ------------------------------------------------------------------
