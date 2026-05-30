@@ -58,8 +58,8 @@ class Admin {
 	public function adminMenu(): void {
 		add_submenu_page(
 			'mlang',
-			__( 'Pro Theme Support', 'polylang-tcopro' ),
-			__( 'Pro Theme Support', 'polylang-tcopro' ),
+			__( 'Cornerstone Support', 'polylang-tcopro' ),
+			__( 'Cornerstone Support', 'polylang-tcopro' ),
 			'manage_options',
 			'polylang_tcopro_settings',
 			[ $this, 'settingsPage' ]
@@ -68,8 +68,8 @@ class Admin {
 		if ( POLYLANG_TCOPRO_ENV === 'dev' ) {
 			add_submenu_page(
 				'mlang',
-				__( 'Pro Theme Debug', 'polylang-tcopro' ),
-				__( 'Pro Theme Debug', 'polylang-tcopro' ),
+				__( 'Cornerstone Debug', 'polylang-tcopro' ),
+				__( 'Cornerstone Debug', 'polylang-tcopro' ),
 				'manage_options',
 				'polylang_tcopro_debug',
 				[ $this, 'debugPage' ]

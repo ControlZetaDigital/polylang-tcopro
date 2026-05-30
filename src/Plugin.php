@@ -20,6 +20,8 @@ class Plugin {
 	}
 
 	private static function registerHooks(): void {
+		self::registerDonateLink();
+
 		// If WPML is active, step aside completely. CS's native WPML service
 		// handles both layout assignment and the builder UI. Running our hooks
 		// alongside it would produce conflicts (cs_match_* returning null can
@@ -77,6 +79,20 @@ class Plugin {
 	private static function registerBuilderHooks(): void {
 		Builder\Integration::setup();
 		Builder\TranslationEndpoint::setup();
+	}
+
+	// ------------------------------------------------------------------
+	// Donate link in plugins list
+	// ------------------------------------------------------------------
+
+	private static function registerDonateLink(): void {
+		add_filter(
+			'plugin_action_links_' . POLYLANG_TCOPRO_BASENAME,
+			static function ( array $links ): array {
+				$links['donate'] = '<a href="https://donate.stripe.com/4gwg177xifrsfSgcMN" target="_blank">' . __( 'Donate', 'polylang-tcopro' ) . '</a>';
+				return $links;
+			}
+		);
 	}
 
 	// ------------------------------------------------------------------
