@@ -41,6 +41,13 @@ class Integration {
 		add_filter( 'cs_document_layout_archive-wc_builder_info', [ self::class, 'filterWCArchiveBuilderInfo' ], 0, 2 );
 		add_action( 'cs_before_preview_frame',                    [ self::class, 'beforePreviewFrame' ] );
 		add_filter( 'cs_filter_app_url',                          [ self::class, 'filterAppURL' ], -100 );
+
+		// CS preview frames are POST requests (cs_preview_state in body). In directory
+		// mode Polylang would redirect the root URL to /lang/, losing the POST body so
+		// CS never receives cs_preview_state and cannot output CORNERSTONE_FRAME.
+		add_filter( 'pll_check_canonical_url', static function ( $redirectUrl ) {
+			return ! empty( $_POST['cs_preview_state'] ) ? false : $redirectUrl;
+		} );
 	}
 
 	// ------------------------------------------------------------------
