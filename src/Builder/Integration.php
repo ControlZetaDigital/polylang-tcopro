@@ -224,24 +224,51 @@ class Integration {
 	 *   domain       → home URL (Polylang uses path-based or query-based, not subdomain)
 	 *
 	 * When Polylang does not know the post's language (e.g. CS layout post types
-	 * that are not registered in Polylang), we return a safe default so the CS
-	 * builder JS language filter — which calls `fallback.includes(lang)` — does
-	 * not crash on an undefined value. Returning an empty PHP array would
-	 * JSON-encode to `[]` (JS array), making the {code, fallback} destructuring
-	 * yield undefined for `fallback`. The safe default below encodes to a JS
-	 * object with an explicit empty `fallback` array.
+	 * that are not registered in Polylang), CS layout types fall back to the
+	 * legacy meta assignment and, if still unknown, are treated as belonging to
+	 * the default language with all other languages in fallback — mirroring
+	 * WPML's behavior so layouts appear in every language view. Other post types
+	 * get a safe empty object so the JS filter does not crash on undefined.
 	 */
 	public static function getPostLanguageData( int $postId ): array {
-		$lang = pll_get_post_language( $postId, 'slug' );
+		$lang     = pll_get_post_language( $postId, 'slug' );
+		$postType = get_post_type( $postId ) ?: '';
+		$isCsType = self::isCsLayoutType( $postType );
+
+		if ( ! $lang && $isCsType ) {
+			// Fall back to the legacy meta assignment so layouts configured
+			// via the admin UI but not yet linked via Polylang still appear
+			// under their assigned language.
+			$meta = get_post_meta( $postId, 'polylang_tcopro_language_assignments', true );
+			if ( $meta ) {
+				$lang = explode( '|', $meta )[0];
+			}
+		}
 
 		if ( ! $lang ) {
-			// Return a typed placeholder so the JS filter can safely read
-			// fallback.includes(selectedLang) → [].includes(...) → false.
+			if ( $isCsType ) {
+				// No language known for a CS layout type: mirror WPML — treat as
+				// default language so it shows in all language views (code matches
+				// default, remaining languages go to fallback).
+				$defaultLang = pll_default_language();
+				$allLangs    = array_keys( pll_the_languages( [ 'raw' => 1, 'echo' => 0 ] ) );
+				return [
+					'code'         => $defaultLang,
+					'source'       => null,
+					'fallback'     => array_values( array_diff( $allLangs, [ $defaultLang ] ) ),
+					'translations' => new \stdClass(),
+					'domain'       => home_url( '/' ),
+				];
+			}
+
+			// Non-layout type with no Polylang language: return a safe typed
+			// placeholder so fallback.includes(lang) in the JS filter does not
+			// crash on undefined while correctly excluding the document.
 			return [
 				'code'         => null,
 				'source'       => null,
 				'fallback'     => [],
-				'translations' => new \stdClass(), // {} not [] in JSON
+				'translations' => new \stdClass(),
 				'domain'       => home_url( '/' ),
 			];
 		}
@@ -312,5 +339,16 @@ class Integration {
 
 	private static function isWpmlActive(): bool {
 		return class_exists( 'SitePress' );
+	}
+
+	private static function isCsLayoutType( string $postType ): bool {
+		return in_array( $postType, [
+			'cs_header',
+			'cs_footer',
+			'cs_layout_single',
+			'cs_layout_archive',
+			'cs_layout_single_wc',
+			'cs_layout_archive_wc',
+		], true );
 	}
 }
