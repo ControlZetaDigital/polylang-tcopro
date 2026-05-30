@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name:       Polylang for Tco Pro
+ * Plugin Name:       Cornerstone Builder Integration for Polylang
  * Plugin URI:        https://github.com/ControlZetaDigital/polylang-tcopro
- * Description:       Integrates Polylang with Theme.co Pro theme headers, footers and layouts
- * Version:           1.4.0
+ * Description:       Integrates Polylang with Cornerstone Builder (Pro Theme / X Theme): language picker in builder, layout language assignment, and translation creation.
+ * Version:           1.5.0
  * Author:            ControlZeta
  * Author URI:        https://controlzetadigital.com
  * Text Domain:       polylang-tcopro
@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define( 'POLYLANG_TCOPRO_NAME',     'polylang-tcopro' );
-define( 'POLYLANG_TCOPRO_VERSION',  '1.4.0' );
+define( 'POLYLANG_TCOPRO_VERSION',  '1.5.0' );
 define( 'POLYLANG_TCOPRO_MIN_WP',   '5.4' );
 define( 'POLYLANG_TCOPRO_ENV',      'prod' );
 define( 'POLYLANG_TCOPRO_BASEPATH', plugin_dir_path( __FILE__ ) );

@@ -6,7 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  release:
+  github-release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -20,7 +20,6 @@ jobs:
         run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
 
       - name: Extract changelog entry
-        id: changelog
         run: |
           version="${{ steps.version.outputs.version }}"
           awk "/^### ${version}\$/{p=1} p && /^### / && !/^### ${version}\$/{p=0} p" readme.md > release_notes.md
@@ -42,11 +41,24 @@ jobs:
 
           cd /tmp/build
           zip -r "${GITHUB_WORKSPACE}/${zip_name}" "${plugin}/"
-          echo "ZIP_NAME=${zip_name}" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ steps.version.outputs.version }}
           body_path: release_notes.md
-          files: ${{ env.ZIP_NAME }}
+          files: polylang-tcopro-${{ steps.version.outputs.version }}.zip
+
+  wporg-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+        with:
+          plugin-slug: integrate-polylang-tcopro

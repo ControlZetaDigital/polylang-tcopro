@@ -14,7 +14,12 @@ class Bootstrap {
 	}
 
 	private static function initUpdateChecker(): void {
-		require_once POLYLANG_TCOPRO_BASEPATH . 'vendor/yahnis-elsts/plugin-update-checker/plugin-update-checker.php';
+		$loader = POLYLANG_TCOPRO_BASEPATH . 'vendor/yahnis-elsts/plugin-update-checker/plugin-update-checker.php';
+		if ( ! file_exists( $loader ) ) {
+			return;
+		}
+
+		require_once $loader;
 
 		\YahnisElsts\PluginUpdateChecker\v5p6\PucFactory::buildUpdateChecker(
 			'https://github.com/ControlZetaDigital/polylang-tcopro',
@@ -84,7 +89,7 @@ class Bootstrap {
 			<p><strong><?php
 				printf(
 					/* translators: %s is the minimum WP version required. */
-					esc_html__( 'Sorry, Polylang for Tco Pro requires WordPress %s or higher.', 'polylang-tcopro' ),
+					esc_html__( 'Sorry, Cornerstone Builder Integration for Polylang requires WordPress %s or higher.', 'polylang-tcopro' ),
 					esc_html( POLYLANG_TCOPRO_MIN_WP )
 				);
 			?></strong></p>

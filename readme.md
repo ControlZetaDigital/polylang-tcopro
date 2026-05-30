@@ -1,6 +1,6 @@
-# Polylang Theme.co Integration
+# Cornerstone Builder Integration for Polylang
 
-A simple plugin that integrates Polylang multilanguage plugin with Theme.co's Pro theme and Cornerstone layout elements.
+Integrates Polylang with Cornerstone Builder (Pro Theme / X Theme): language picker in the builder, layout language assignment, and translation creation from the builder UI.
 
 ## Information
 
@@ -10,7 +10,7 @@ A simple plugin that integrates Polylang multilanguage plugin with Theme.co's Pr
 **Requires at least:** 5.4<br />
 **Tested up to:** 6.9<br />
 **Requires PHP:** 7.4<br />
-**Stable tag:** 1.4.0<br />
+**Stable tag:** 1.5.0<br />
 **License:** GPLv2 or later<br />
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,19 @@ If you want to collaborate in improving this plugin and have any ideas to do so,
 Also, if you've found it helpful and want to help me continue improving it, you can make a [donation here](https://donate.stripe.com/4gwg177xifrsfSgcMN).
 
 ## Changelog
+
+### 1.5.0
+
+#### Added
+- Full Cornerstone builder language UI support, replicating CS's native WPML integration for Polylang sites.
+- Language picker in the builder (language switcher and document list filter).
+- Create translations of pages, posts and CS layouts directly from the builder UI.
+- CS layout types (headers, footers, archives, singles) visible in all language views in the builder document list.
+- Global block (Component) language resolution: Components resolve to their Polylang translation for the current language.
+- WooCommerce Archive layout builder preview now loads the correct language shop page.
+- Preview frame fix for Polylang directory mode: prevents canonical redirect from breaking the builder preview.
+- App URL fix for directory mode: bypasses Polylang's home_url() filter so the builder URL is always reachable.
+- Polylang Pro compatibility: excludes language assignment meta from Pro's copy/sync to prevent cross-language overwrites.
 
 ### 1.4.0
 

@@ -1,11 +1,11 @@
-=== Polylang Theme.co Integration ===
+=== Cornerstone Builder Integration for Polylang ===
 Contributors: ControlZetaDigital
 Tags: polylang, integrator, multilanguage, support, tco, themeco, pro, theme, cornerstone
 Donate link: https://donate.stripe.com/4gwg177xifrsfSgcMN
 Requires at least: 5.4
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: v1.4.0
+Stable tag: v1.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,17 @@ Also, if you\'ve found it helpful and want to help me continue improving it, you
 1. [Plugin Settings](https://github.com/ControlZetaDigital/polylang-tcopro/blob/main/settings.png)
 
 == Changelog ==
+1.5.0
+- Feature: full Cornerstone builder language UI support (WPML-parity for Polylang).
+- Feature: language picker and document list filter in the builder.
+- Feature: create translations of pages, posts and CS layouts from the builder UI.
+- Feature: CS layout types visible in all language views in the builder.
+- Feature: global block (Component) language resolution.
+- Feature: WooCommerce Archive layout builder preview loads correct language shop page.
+- Fix: preview frame broken by Polylang canonical redirect in directory mode.
+- Fix: builder app URL unreachable in Polylang directory mode.
+- Compatibility: Polylang Pro — excludes language assignment meta from copy/sync.
+
 1.4.0
 - Feature: WooCommerce Single and Archive layout support
   (cs_layout_single_wc / cs_layout_archive_wc via cs_match_layout-single-wc_assignment
