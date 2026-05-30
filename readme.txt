@@ -5,7 +5,7 @@ Donate link: https://donate.stripe.com/4gwg177xifrsfSgcMN
 Requires at least: 5.4
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,10 @@ Also, if you\'ve found it helpful and want to help me continue improving it, you
 1. [Plugin Settings](https://github.com/ControlZetaDigital/polylang-tcopro/blob/main/settings.png)
 
 == Changelog ==
+1.5.1
+- Fix: Components (cs_global_block) now appear in the builder document list across all language views.
+- Fix: "Copy from" dropdown in the builder translate popup no longer appears empty for CS layout types not yet linked in Polylang.
+
 1.5.0
 - Feature: full Cornerstone builder language UI support (WPML-parity for Polylang).
 - Feature: language picker and document list filter in the builder.

@@ -10,7 +10,7 @@ Integrates Polylang with Cornerstone Builder (Pro Theme / X Theme): language pic
 **Requires at least:** 5.4<br />
 **Tested up to:** 7.0<br />
 **Requires PHP:** 7.4<br />
-**Stable tag:** 1.5.0<br />
+**Stable tag:** 1.5.1<br />
 **License:** GPLv2 or later<br />
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,12 @@ If you want to collaborate in improving this plugin and have any ideas to do so,
 Also, if you've found it helpful and want to help me continue improving it, you can make a [donation here](https://donate.stripe.com/4gwg177xifrsfSgcMN).
 
 ## Changelog
+
+### 1.5.1
+
+#### Fixed
+- Components (cs_global_block) now appear in the builder document list across all language views.
+- "Copy from" dropdown in the builder translate popup no longer appears empty for CS layout types not yet linked in Polylang.
 
 ### 1.5.0
 
