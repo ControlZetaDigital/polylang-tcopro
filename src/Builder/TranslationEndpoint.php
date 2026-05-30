@@ -111,7 +111,7 @@ class TranslationEndpoint {
 	 * language. Optionally clones the CS content from another post.
 	 *
 	 * Expected $data keys:
-	 *   source   (int)  — source post ID
+	 *   source   (int)    — source post ID
 	 *   lang     (string) — target Polylang language slug
 	 *   copyFrom (int, optional) — post ID whose CS content to duplicate
 	 *
@@ -143,6 +143,17 @@ class TranslationEndpoint {
 			return [ 'id' => $existing ];
 		}
 
+		// Ensure the source post has a Polylang language. CS layout types are
+		// not registered in Polylang's translation settings, so their language
+		// may not have been set yet. Fall back to the plugin's legacy meta.
+		$sourceLang = pll_get_post_language( $sourceId, 'slug' );
+		if ( ! $sourceLang ) {
+			$sourceLang = self::getLanguageFromLegacyMeta( $sourceId );
+			if ( $sourceLang ) {
+				pll_set_post_language( $sourceId, $sourceLang );
+			}
+		}
+
 		// Create a new post in the target language.
 		$newId = wp_insert_post(
 			[
@@ -158,22 +169,40 @@ class TranslationEndpoint {
 		}
 
 		// Assign language and link to the translation group.
+		// Include the source itself in the group so both ends are connected.
 		pll_set_post_language( $newId, $targetLang );
 
-		$group                = pll_get_post_translations( $sourceId );
+		$group = $sourceLang ? pll_get_post_translations( $sourceId ) : [];
+		if ( $sourceLang && ! isset( $group[ $sourceLang ] ) ) {
+			$group[ $sourceLang ] = $sourceId;
+		}
 		$group[ $targetLang ] = $newId;
 		pll_save_post_translations( $group );
 
-		// Duplicate CS content (post_content is the JSON element tree).
-		if ( $copyFrom ) {
-			$origin = get_post( $copyFrom );
+		// For CS layout types, mirror the language assignment to the plugin's
+		// legacy meta so the frontend assignment system picks it up immediately,
+		// without requiring a manual save via the admin UI.
+		if ( self::isCsLayoutType( $sourcePost->post_type ) ) {
+			update_post_meta( $newId, 'polylang_tcopro_language_assignments', $targetLang );
+		}
+
+		// Copy CS content (post_content is the JSON element tree + _cornerstone meta).
+		//
+		// For CS layout types the builder cannot distinguish "start blank" from
+		// "copy" when the translation map is empty (both arrive with no copyFrom),
+		// so we always copy from the source. Regular content types respect
+		// copyFrom explicitly: if absent the new post starts blank.
+		$effectiveCopyFrom = $copyFrom
+			?? ( self::isCsLayoutType( $sourcePost->post_type ) ? $sourceId : null );
+
+		if ( $effectiveCopyFrom ) {
+			$origin = get_post( $effectiveCopyFrom );
 			if ( $origin instanceof \WP_Post && $origin->post_content ) {
 				wp_update_post( [
 					'ID'           => $newId,
 					'post_content' => $origin->post_content,
 				] );
 
-				// Copy Cornerstone-specific meta.
 				foreach ( get_post_meta( $origin->ID ) as $key => $values ) {
 					if ( str_starts_with( $key, '_cornerstone' ) ) {
 						foreach ( $values as $value ) {
@@ -185,6 +214,41 @@ class TranslationEndpoint {
 		}
 
 		return [ 'id' => $newId ];
+	}
+
+	// ------------------------------------------------------------------
+	// Helpers
+	// ------------------------------------------------------------------
+
+	/**
+	 * Returns the primary language slug from the plugin's legacy meta, or an
+	 * empty string if the post has no meta or is not a CS layout type.
+	 *
+	 * The meta value is pipe-separated when multiple languages are assigned
+	 * (e.g. "es|fr"); we take the first as the canonical language.
+	 */
+	private static function getLanguageFromLegacyMeta( int $postId ): string {
+		if ( ! self::isCsLayoutType( get_post_type( $postId ) ?: '' ) ) {
+			return '';
+		}
+
+		$meta = get_post_meta( $postId, 'polylang_tcopro_language_assignments', true );
+		if ( ! $meta ) {
+			return '';
+		}
+
+		return explode( '|', $meta )[0];
+	}
+
+	private static function isCsLayoutType( string $postType ): bool {
+		return in_array( $postType, [
+			'cs_header',
+			'cs_footer',
+			'cs_layout_single',
+			'cs_layout_archive',
+			'cs_layout_single_wc',
+			'cs_layout_archive_wc',
+		], true );
 	}
 
 	// ------------------------------------------------------------------
