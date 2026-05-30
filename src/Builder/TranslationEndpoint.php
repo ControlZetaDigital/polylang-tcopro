@@ -137,9 +137,12 @@ class TranslationEndpoint {
 			throw new \Exception( 'Source post not found.' );
 		}
 
-		// Return the existing translation if already created.
+		// Return the existing translation if already created and not trashed.
+		// CS deletes documents via wp_trash_post(), so a "deleted" translation
+		// still exists in the DB with post_status = 'trash'. Treat it as absent
+		// so the user can create a fresh one without first permanently deleting.
 		$existing = pll_get_post( $sourceId, $targetLang );
-		if ( $existing ) {
+		if ( $existing && get_post_status( $existing ) !== 'trash' ) {
 			return [ 'id' => $existing ];
 		}
 
@@ -186,7 +189,9 @@ class TranslationEndpoint {
 			update_post_meta( $newId, 'polylang_tcopro_language_assignments', $targetLang );
 		}
 
-		// Copy CS content (post_content is the JSON element tree + _cornerstone meta).
+		// Copy CS content via the native Document clone API (same approach as
+		// CS's own WPML service). This is necessary because CS's save_post hooks
+		// for cs_* post types override any raw wp_update_post write.
 		//
 		// For CS layout types the builder cannot distinguish "start blank" from
 		// "copy" when the translation map is empty (both arrive with no copyFrom),
@@ -196,19 +201,18 @@ class TranslationEndpoint {
 			?? ( self::isCsLayoutType( $sourcePost->post_type ) ? $sourceId : null );
 
 		if ( $effectiveCopyFrom ) {
-			$origin = get_post( $effectiveCopyFrom );
-			if ( $origin instanceof \WP_Post && $origin->post_content ) {
-				wp_update_post( [
-					'ID'           => $newId,
-					'post_content' => $origin->post_content,
-				] );
-
-				foreach ( get_post_meta( $origin->ID ) as $key => $values ) {
-					if ( str_starts_with( $key, '_cornerstone' ) ) {
-						foreach ( $values as $value ) {
-							update_post_meta( $newId, $key, maybe_unserialize( $value ) );
-						}
-					}
+			try {
+				$doc = cornerstone( 'Resolver' )->getDocument( $newId );
+				if ( $doc ) {
+					$doc->update( [ 'clone' => $effectiveCopyFrom ] )->save();
+				}
+			} catch ( \Exception $e ) {
+				$origin = get_post( $effectiveCopyFrom );
+				if ( $origin instanceof \WP_Post && $origin->post_content ) {
+					wp_update_post( [
+						'ID'           => $newId,
+						'post_content' => $origin->post_content,
+					] );
 				}
 			}
 		}

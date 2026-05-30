@@ -145,10 +145,14 @@ class Integration {
 			];
 		}
 
-		// pll_get_post_translations always returns an associative array that
-		// includes the post itself, so it is never empty for a known post.
-		// PHP encodes non-empty associative arrays as JSON objects correctly.
-		$translations = pll_get_post_translations( $postId );
+		// pll_get_post_translations returns all posts in the translation group,
+		// including trashed ones (CS deletes via wp_trash_post, not permanently).
+		// Filter them out so the builder doesn't navigate to a trashed post when
+		// clicking a language flag instead of showing the "create translation" modal.
+		$translations = array_filter(
+			pll_get_post_translations( $postId ),
+			static fn( int $id ) => get_post_status( $id ) !== 'trash'
+		);
 
 		$allLangs = array_keys( pll_the_languages( [ 'raw' => 1, 'echo' => 0 ] ) );
 		$fallback  = array_values( array_diff( $allLangs, array_keys( $translations ) ) );
